@@ -1,4 +1,5 @@
-# Proiect POO 
+# Tom și Jerry în BlastMania
+Celebrele personaje din desenele pentru copii, Tom și Jerry, au trecut la o lupta plină cu explozii. Cei doi se află într-un labirint cu obstacole și plasează bombe în încercarea de a-l omorî pe celălalt.  
 ### Important!
 Aveți voie cu cod generat de modele de limbaj la care nu ați contribuit semnificativ doar în folder-ul `generated`.
 Codul generat pus "ca să fie"/pe care nu îl înțelegeți se punctează doar pentru puncte bonus, doar în contextul

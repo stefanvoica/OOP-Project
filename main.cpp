@@ -1,57 +1,77 @@
-#include <iostream>
-#include <array>
+#include<bits/stdc++.h>
+#define dim 7502
+#define int long long
+using namespace std;
+ifstream fin ("graf.in");
+ofstream fout("graf.out");
+int n,pas[dim],A,B,coada[dim];
+bool viz[dim];
+vector<int> a[dim],from[dim],sol;
+const int INF=2000000000;
 
-#include <Helper.h>
+void bfs ()
+{
+    int i,st=1,dr=1;
+    for (i=1; i<=n; i++)
+        pas[i]=INF;
+    pas[A]=0;
+    coada[1]=A;
+    while (st<=dr)
+    {
+        int x=coada[st];
+        for (auto y:a[x])
+        {
+            if (pas[x]+1<pas[y])
+                coada[++dr]=y;
+            if (pas[x]+1<=pas[y])
+            {
+                pas[y]=pas[x]+1;
+                from[y].push_back(x);
+            }
+        }
+        st++;
+    }
+}
 
-int main() {
-    std::cout << "Hello, world!\n";
-    std::array<int, 100> v{};
-    int nr;
-    std::cout << "Introduceți nr: ";
-    /////////////////////////////////////////////////////////////////////////
-    /// Observație: dacă aveți nevoie să citiți date de intrare de la tastatură,
-    /// dați exemple de date de intrare folosind fișierul tastatura.txt
-    /// Trebuie să aveți în fișierul tastatura.txt suficiente date de intrare
-    /// (în formatul impus de voi) astfel încât execuția programului să se încheie.
-    /// De asemenea, trebuie să adăugați în acest fișier date de intrare
-    /// pentru cât mai multe ramuri de execuție.
-    /// Dorim să facem acest lucru pentru a automatiza testarea codului, fără să
-    /// mai pierdem timp de fiecare dată să introducem de la zero aceleași date de intrare.
-    ///
-    /// Pe GitHub Actions (bife), fișierul tastatura.txt este folosit
-    /// pentru a simula date introduse de la tastatură.
-    /// Bifele verifică dacă programul are erori de compilare, erori de memorie și memory leaks.
-    ///
-    /// Dacă nu puneți în tastatura.txt suficiente date de intrare, îmi rezerv dreptul să vă
-    /// testez codul cu ce date de intrare am chef și să nu pun notă dacă găsesc vreun bug.
-    /// Impun această cerință ca să învățați să faceți un demo și să arătați părțile din
-    /// program care merg (și să le evitați pe cele care nu merg).
-    ///
-    /////////////////////////////////////////////////////////////////////////
-    std::cin >> nr;
-    /////////////////////////////////////////////////////////////////////////
-    for(int i = 0; i < nr; ++i) {
-        std::cout << "v[" << i << "] = ";
-        std::cin >> v[i];
+void solve ()
+{
+    int i,st=1,dr=1;
+    coada[1]=B;
+    viz[B]=1;
+    while (st<=dr)
+    {
+        int x=coada[st];
+        if (st==dr)
+            sol.push_back(x);
+        for (auto y:from[x])
+            if (viz[y]==0)
+            {
+                viz[y]=1;
+                coada[++dr]=y;
+            }
+        ++st;
     }
-    std::cout << "\n\n";
-    std::cout << "Am citit de la tastatură " << nr << " elemente:\n";
-    for(int i = 0; i < nr; ++i) {
-        std::cout << "- " << v[i] << "\n";
+    n=sol.size();
+    fout<<n<<'\n';
+    sort(sol.begin(),sol.end());
+    for (i=0;i<n;i++)
+        fout<<sol[i]<<' ';
+
+}
+
+int32_t main ()
+{
+    int m,x,y;
+    fin>>n>>m;
+    A=1,B=2;
+    while (m--)
+    {
+        fin>>x>>y;
+        a[x].push_back(y);
+        a[y].push_back(x);
     }
-    ///////////////////////////////////////////////////////////////////////////
-    /// Pentru date citite din fișier, NU folosiți tastatura.txt. Creați-vă voi
-    /// alt fișier propriu cu ce alt nume doriți.
-    /// Exemplu:
-    /// std::ifstream fis("date.txt");
-    /// for(int i = 0; i < nr2; ++i)
-    ///     fis >> v2[i];
-    ///
-    ///////////////////////////////////////////////////////////////////////////
-    ///                Exemplu de utilizare cod generat                     ///
-    ///////////////////////////////////////////////////////////////////////////
-    Helper helper;
-    helper.help();
-    ///////////////////////////////////////////////////////////////////////////
+    bfs();
+    solve ();
     return 0;
 }
+

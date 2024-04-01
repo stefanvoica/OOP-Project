@@ -191,8 +191,8 @@ int main() {
     game.setMap(std::make_unique<Harta>("harta.txt"));
 
     // Adauga 2 jucatori
-    Player player1("Alice", 1, 1, game.getMap()); // Starting position (0,0)
-    Player player2("Bob", 8, 1, game.getMap());   // Starting position (3,3)
+    Player player1("Tom", 1, 1, game.getMap()); // Starting position (0,0)
+    Player player2("Jerry", 8, 1, game.getMap());   // Starting position (3,3)
     game.addPlayer(player1);
     game.addPlayer(player2);
 
@@ -210,16 +210,16 @@ int main() {
 
     // Jucatorul 1 plaseaza bomba
     game.getPlayers()[0].placeBomb(game.getBombs(), 1); // Player1 places a bomb with explosion range 2
-    std::cout << "State after Alice placed a bomb:" << std::endl;
+    std::cout << "State after Tom placed a bomb:" << std::endl;
     std::cout << game << std::endl;
 
     // Jucatorul 1 se muta la dreapta si mai pune o bomba
     game.getPlayers()[0].move(1, 0);
-    std::cout << "State after Alice moved again " << std::endl;
+    std::cout << "State after Tom moved again " << std::endl;
     std::cout << game << std::endl;
 
     game.getPlayers()[0].placeBomb(game.getBombs(), 1);
-    std::cout << "State after Alice placed another bomb:" << std::endl;
+    std::cout << "State after Tom placed another bomb:" << std::endl;
     std::cout << game << std::endl;
 
     // Explodeaza toate bombele

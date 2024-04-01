@@ -20,6 +20,7 @@ public:
 
     Harta& operator=(const Harta& other) {
             layout = other.layout;
+            return *this;
     }
 
     ~Harta() {

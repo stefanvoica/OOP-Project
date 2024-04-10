@@ -120,7 +120,7 @@ private:
     std::vector<Player> players;
     std::vector<Bomb> bombs;
 public:
-    Game(const Harta& map) : gameMap(map) {}
+    explicit Game(const Harta& map) : gameMap(map) {}
 
 
     Harta& getMap() {

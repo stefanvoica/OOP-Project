@@ -18,8 +18,8 @@ public:
     Harta(const Harta& other) : layout(other.layout) {}
 
     Harta& operator=(const Harta& other) {
-        layout = other.layout;
-        return *this;
+            layout = other.layout;
+            return *this;
     }
 
     ~Harta() {
@@ -30,21 +30,22 @@ public:
         return layout;
     }
 
-    char getCell(int x, int y) const {
-        // Verificăm dacă coordonatele sunt în interiorul hărții
-        if (y >= 0 && y < layout.size() && x >= 0 && x < layout[y].size()) {
-            return layout[y][x];
-        }
-        // Returnăm un caracter de umplutură pentru coordonatele în afara hărții
-        return ' ';
+    char getCell(size_t x, size_t y) const {
+    // Verificăm dacă coordonatele sunt în interiorul hărții
+    if (y < layout.size() && x < layout[y].size()) {
+        return layout[y][x];
     }
+    // Returnăm un caracter de umplutură pentru coordonatele în afara hărții
+    return ' ';
+}
 
-    void updateCell(int x, int y, char symbol) {
-        // Verificăm dacă coordonatele sunt în interiorul hărții
-        if (y >= 0 && y < layout.size() && x >= 0 && x < layout[y].size()) {
-            layout[y][x] = symbol;
-        }
+
+void updateCell(size_t x, size_t y, char symbol) {
+    // Verificăm dacă coordonatele sunt în interiorul hărții
+    if (y < layout.size() && x < layout[y].size()) {
+        layout[y][x] = symbol;
     }
+}
 
     friend std::ostream& operator<<(std::ostream& os, const Harta& map) {
         for (const auto& line : map.layout) {
@@ -114,7 +115,7 @@ public:
 
     friend std::ostream& operator<<(std::ostream& os, const Player& player) {
         os << "Player: " << player.name << " Position: (" << player.x << ", "
-           << player.y << ") Alive: " << (player.isAlive ? "Yes" : "No");
+        << player.y << ") Alive: " << (player.isAlive ? "Yes" : "No");
         return os;
     }
 };
@@ -140,10 +141,12 @@ public:
         gameMap.updateCell(player.getX(), player.getY(), player.getName()[0]);
     }
 
-    Player& getPlayer(int index) {
+    Player& getPlayer(size_t index) {
         if (index >= 0 && index < players.size())
             return players[index];
+        throw std::out_of_range("Invalid player index");
     }
+
 
     std::vector<Bomb>& getBombs() {
         return bombs;
@@ -215,9 +218,9 @@ int main() {
         std::cin >> lit;
         if (lit == 'D')
         {
-            game.getPlayer(0).placeBomb(1);
-            std::cout << "State after Tom placed another bomb:" << std::endl;
-            std::cout << game << std::endl;
+        game.getPlayer(0).placeBomb(1);
+        std::cout << "State after Tom placed another bomb:" << std::endl;
+        std::cout << game << std::endl;
         }
 
         std::cout << "Unde se misca Jerry? (A, W, S, D): ";
@@ -230,9 +233,9 @@ int main() {
         std::cin >> lit;
         if (lit == 'D')
         {
-            game.getPlayer(1).placeBomb(1);
-            std::cout << "State after Tom placed another bomb:" << std::endl;
-            std::cout << game << std::endl;
+        game.getPlayer(1).placeBomb(1);
+        std::cout << "State after Tom placed another bomb:" << std::endl;
+        std::cout << game << std::endl;
         }
     }
     std::cout << "All bombs have exploded" << std::endl;

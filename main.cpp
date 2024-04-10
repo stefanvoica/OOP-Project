@@ -8,7 +8,7 @@ class Harta {
 private:
     std::vector<std::string> layout;
 public:
-    Harta(const std::string& filename) {
+    explicit Harta(const std::string& filename) {
         std::ifstream file(filename);
         std::string line;
         while (getline(file, line))
@@ -24,10 +24,6 @@ public:
 
     ~Harta() {
         std::cout << "Map 1 - Completed; Next map: loading..." << std::endl;
-    }
-
-    const std::vector<std::string>& getLayout() const {
-        return layout;
     }
 
     char getCell(size_t x, size_t y) const {
@@ -64,8 +60,6 @@ public:
 
     int getX() const { return x; }
     int getY() const { return y; }
-    int getExplosionRange() const { return explosionRange; }
-    void setExplosionRange(int newRange) { explosionRange = newRange; }
 
     bool isInRange(int targetX, int targetY) const {
         return abs(targetX - x) <= explosionRange && abs(targetY - y) <= explosionRange;
@@ -128,9 +122,6 @@ private:
 public:
     Game(const Harta& map) : gameMap(map) {}
 
-    void setMap(Harta map) {
-        gameMap = std::move(map);
-    }
 
     Harta& getMap() {
         return gameMap;
@@ -142,7 +133,7 @@ public:
     }
 
     Player& getPlayer(size_t index) {
-        if (index >= 0 && index < players.size())
+        if (index < players.size())
             return players[index];
         throw std::out_of_range("Invalid player index");
     }

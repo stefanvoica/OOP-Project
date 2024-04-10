@@ -1,5 +1,12 @@
 # Tom și Jerry în BlastMania
 Celebrele personaje din desenele pentru copii, Tom și Jerry, au trecut la o lupta plină cu explozii. Cei doi se află într-un labirint cu obstacole și plasează bombe în încercarea de a-l omorî pe celălalt.  
+
+# Descriere algoritm
+Codul implementează un joc simplu în care doi jucători, Tom și Jerry, se mișcă într-un labirint și plasează bombe pentru a încerca să se elimine reciproc. Mai întâi, se citește harta dintr-un fișier și se afișează starea inițială a jocului. Apoi, utilizatorul este solicitat să introducă pozițiile inițiale ale lui Tom și Jerry, precum și numărul de mutări pe care jucătorii îl vor face.
+Fiecare jucător poate alege să se mute pe harta într-una din cele patru direcții (sus, jos, stânga, dreapta) și să plaseze bombe pe harta. După fiecare mutare, starea jocului este afișată.
+Jocul se desfășoară într-un buclu care permite fiecărui jucător să facă un număr specificat de mutări. După ce toate mutările au fost efectuate, toate bombele sunt detonate, iar jucătorii sunt eliminați dacă se află în raza de acțiune a unei bombe.
+La final, se afișează starea jocului după ce toate bombele au fost detonate.
+
 ### Important!
 Aveți voie cu cod generat de modele de limbaj la care nu ați contribuit semnificativ doar în folder-ul `generated`.
 Codul generat pus "ca să fie"/pe care nu îl înțelegeți se punctează doar pentru puncte bonus, doar în contextul

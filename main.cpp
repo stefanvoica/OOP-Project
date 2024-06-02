@@ -421,11 +421,11 @@ public:
     friend ofstream& operator<<(ofstream& out, const Album& album);
     friend ifstream& operator>>(ifstream& in, Album& album);
 
-    void afisare(ostream& out) const;
-    void citire(istream& in);
+    void afisare(ostream& out) const override;
+    void citire(istream& in) override;
 
-    void afisare(ofstream& out) const;
-    void citire(ifstream& in);
+    void afisare(ofstream& out) const override;
+    void citire(ifstream& in) override;
 
     int getNumarMelodii() const
     {
@@ -2069,6 +2069,7 @@ void Aplicatie::ascultaMelodie(int indexUser)
     }
     */
 }
+
 
 int main()
 {

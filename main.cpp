@@ -32,7 +32,7 @@ protected:
     int TipCont;
 public:
     Utilizator();
-    Utilizator(string Email, string Parola, string DisplayName, int TipCont);
+    Utilizator(const string& Email, const string& Parola, const string& DisplayName, int TipCont);
     Utilizator(const Utilizator& user);
 
     Utilizator& operator= (const Utilizator& user);
@@ -62,15 +62,16 @@ public:
         return this->Parola;
     }
 
-    void setDisplayName(string DisplayName)
+    void setDisplayName(const string& DisplayName)
     {
         this->DisplayName = DisplayName;
     }
-    void setEmail(string Email)
+
+    void setEmail(const string& Email)
     {
         this->Email = Email;
     }
-    void setParola(string Parola)
+    void setParola(const string& Parola)
     {
         this->Parola = Parola;
     }
@@ -92,10 +93,11 @@ Utilizator::Utilizator()
     this->Email = "ANONIM";
     this->DisplayName = "ANONIM";
     this->Parola = "ANONIM";
+    this->TipCont = -1; ///
 
 }
 
-Utilizator::Utilizator(string Email, string Parola, string DisplayName, int TipCont)
+Utilizator::Utilizator(const string& Email, const string& Parola, const string& DisplayName, int TipCont)
 {
     this->Email = Email;
     this->Parola = Parola;
@@ -214,7 +216,7 @@ private:
 public:
 
     Melodie();
-    Melodie(string Nume, int Durata, string Gen, bool Explicit);
+    Melodie(const string& Nume, int Durata, const string& Gen, bool Explicit);
     Melodie(const Melodie& copie);
 
     Melodie& operator= (const Melodie& copie);
@@ -253,7 +255,7 @@ Melodie::Melodie()
     this->Explicit = 0;
 }
 
-Melodie::Melodie(string Nume, int Durata, string Gen, bool Explicit)
+Melodie::Melodie(const string& Nume, int Durata, const string& Gen, bool Explicit)
 {
 
     this->Nume = Nume;
@@ -410,7 +412,7 @@ private:
 public:
 
     Album();
-    Album(string Nume, int NumarMelodii, vector <Melodie> ListaMelodii);
+    Album(const string& Nume, int NumarMelodii, vector <Melodie> ListaMelodii);
     Album(const Album& album);
 
     Album& operator= (const Album& album);
@@ -446,12 +448,11 @@ public:
 
 Album::Album()
 {
-
     this->Nume = "ANONIM";
     this->NumarMelodii = 0;
 }
 
-Album::Album(string Nume, int NumarMelodii, vector <Melodie> ListaMelodii)
+Album::Album(const string& Nume, int NumarMelodii, vector <Melodie> ListaMelodii)
 {
 
     this->Nume = Nume;
@@ -628,8 +629,8 @@ protected:
 public:
 
     Artist();
-    Artist(string Email, string Parola, string DisplayName, int TipCont,
-           int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume);
+    Artist(const string& Email, const string& Parola, const string& DisplayName, int TipCont,
+           int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album>& ListaAlbume);
     Artist(const Artist& artist);
     Artist& operator= (const Artist& artist);
 
@@ -686,7 +687,7 @@ Artist::Artist()
     this->NumarAlbume = 0;
 }
 
-Artist::Artist(string Email, string Parola, string DisplayName, int TipCont, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume):
+Artist::Artist(const string& Email, const string& Parola, const string& DisplayName, int TipCont, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album>& ListaAlbume):
     Utilizator(Email, Parola, DisplayName, TipCont)
 {
     this->TipCont = 2;
@@ -896,7 +897,7 @@ protected:
 public:
 
     Ascultator();
-    Ascultator(string Email, string Parola, string DisplayName, int TipCont, int NumarUrmariri, int MinuteAscultate, int Varsta);
+    Ascultator(const string&  Email, const string&  Parola, const string&  DisplayName, int TipCont, int NumarUrmariri, int MinuteAscultate, int Varsta);
     Ascultator(const Ascultator& listener);
 
     Ascultator& operator= (const Ascultator& listener);
@@ -947,7 +948,7 @@ Ascultator::Ascultator(): Utilizator()
 
 }
 
-Ascultator::Ascultator(string Email, string Parola, string DisplayName, int TipCont, int NumarUrmariri, int MinuteAscultate, int Varsta):
+Ascultator::Ascultator(const string& Email, const string&  Parola, const string&  DisplayName, int TipCont, int NumarUrmariri, int MinuteAscultate, int Varsta):
     Utilizator(Email, Parola, DisplayName, TipCont)
 {
     this->TipCont = 1;
@@ -1094,7 +1095,7 @@ private:
 public:
 
     PremiumUser();
-    PremiumUser(string Email, string Parola, string DisplayName, int TipCont, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume, int NumarUrmariri, int MinuteAscultate, int Varsta, int ChartSpot);
+    PremiumUser(const string& Email, const string& Parola, const string& DisplayName, int TipCont, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume, int NumarUrmariri, int MinuteAscultate, int Varsta, int ChartSpot);
     PremiumUser(const PremiumUser& auxiliar);
     PremiumUser& operator= (const PremiumUser& auxiliar);
 
@@ -1133,7 +1134,7 @@ PremiumUser::PremiumUser()
 
 }
 
-PremiumUser::PremiumUser(string Email, string Parola, string DisplayName, int TipCont, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume,
+PremiumUser::PremiumUser(const string&  Email, const string&  Parola, const string&  DisplayName, int TipCont, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume,
                          int NumarUrmariri, int MinuteAscultate, int Varsta, int ChartSpot):
     Utilizator(Email, Parola, DisplayName, TipCont),
     Artist(Email, Parola, DisplayName, TipCont, NumarUrmaritori, AscultatoriLunari, NumarAlbume, ListaAlbume),
@@ -1397,9 +1398,9 @@ public:
     int getMinuteAscultateUser(int i) const;
     int getChartSpotUser(int i) const;
 
-    void setNumeUser(int i, string &Nume);
-    void setParolaUser(int i, string &Parola);
-    void setEmailUser(int i, string &Email);
+    void setNumeUser(int i, const string &Nume);
+    void setParolaUser(int i,const string &Parola);
+    void setEmailUser(int i,const string &Email);
 
     map <Melodie, int> creeazaMap();
 
@@ -1409,7 +1410,7 @@ public:
 
     void ascultaMelodie(int);
 
-    bool dateCorecte(string &Email, string &Parola, int indexUser)
+    bool dateCorecte(const string &Email, const string &Parola, int indexUser)
     {
         return Email == this->getEmailUser(indexUser) && Parola == this->getParolaUser(indexUser);
     }
@@ -1555,9 +1556,9 @@ public:
                             {
                                 system("CLS");
                                 cout << "Introduceti noua parola: ";
-                                string parola;
-                                cin >> parola;
-                                this->setParolaUser(indexUser, parola);
+                                string parola_;
+                                cin >> parola_;
+                                this->setParolaUser(indexUser, parola_);
                             }
                             else if (comanda2 == "3")
                             {
@@ -1932,17 +1933,17 @@ int Aplicatie::getTipContUser(int i) const
     return this->UserList[i]->getTipCont();
 }
 
-void Aplicatie::setNumeUser(int i, string &Nume)
+void Aplicatie::setNumeUser(int i, const string &Nume)
 {
     this->UserList[i]->setDisplayName(Nume);
 }
 
-void Aplicatie::setEmailUser(int i, string &Email)
+void Aplicatie::setEmailUser(int i, const string &Email)
 {
     this->UserList[i]->setEmail(Email);
 }
 
-void Aplicatie::setParolaUser(int i, string &Parola)
+void Aplicatie::setParolaUser(int i, const string &Parola)
 {
     this->UserList[i]->setParola(Parola);
 }
@@ -2074,8 +2075,7 @@ void Aplicatie::ascultaMelodie(int indexUser)
 
 int main()
 {
-    Aplicatie* app= app->getInstanta();
-
+    Aplicatie* app = Aplicatie::getInstanta();
     app->startApp();
 
     return 0;

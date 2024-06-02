@@ -44,7 +44,7 @@ public:
     friend ifstream& operator>> (ifstream& in, Utilizator& user);
 
     virtual void afisare(ostream &out) const override;
-    virtual void citire(istream &in);
+    virtual void citire(istream &in) override;
 
     virtual void afisare(ofstream& out) const override;
     virtual void citire(ifstream& in) override;
@@ -225,11 +225,11 @@ public:
     friend ofstream& operator<< (ofstream& out, const Melodie& song);
     friend ifstream& operator>> (ifstream& in, Melodie& song);
 
-    void afisare(ostream& out) const;
-    void citire(istream& in);
+    void afisare(ostream& out) const override;
+    void citire(istream& in) override;
 
-    void afisare(ofstream& out) const;
-    void citire(ifstream& in);
+    void afisare(ofstream& out) const override;
+    void citire(ifstream& in) override;
 
     int getDurata() const
     {
@@ -339,9 +339,7 @@ void Melodie::citire(istream& in)
 
 ostream& operator<< (ostream& out, const Melodie& song)
 {
-
     song.afisare(out);
-
     return out;
 }
 
@@ -635,11 +633,11 @@ public:
     Artist(const Artist& artist);
     Artist& operator= (const Artist& artist);
 
-    void afisare(ostream& out) const;
-    void citire(istream& in);
+    void afisare(ostream& out) const override;
+    void citire(istream& in) override;
 
-    void afisare(ofstream& out) const;
-    void citire(ifstream& in);
+    void afisare(ofstream& out) const override;
+    void citire(ifstream& in) override;
 
     void addAlbum();
 
@@ -903,11 +901,11 @@ public:
 
     Ascultator& operator= (const Ascultator& listener);
 
-    void afisare(ostream& out) const;
-    void citire(istream& in);
+    void afisare(ostream& out) const override;
+    void citire(istream& in) override;
 
-    void afisare(ofstream& out) const;
-    void citire(ifstream& in);
+    void afisare(ofstream& out) const override;
+    void citire(ifstream& in) override;
 
     int pretAbonamentLunar();
     int salariuLunar();
@@ -1100,11 +1098,11 @@ public:
     PremiumUser(const PremiumUser& auxiliar);
     PremiumUser& operator= (const PremiumUser& auxiliar);
 
-    void afisare(ostream& out) const;
-    void citire(istream& in);
+    void afisare(ostream& out) const override;
+    void citire(istream& in) override;
 
-    void afisare(ofstream& out) const;
-    void citire(ifstream& in);
+    void afisare(ofstream& out) const override;
+    void citire(ifstream& in) override;
 
     int getTipCont() const
     {
@@ -2071,8 +2069,6 @@ void Aplicatie::ascultaMelodie(int indexUser)
     }
     */
 }
-
-
 
 int main()
 {

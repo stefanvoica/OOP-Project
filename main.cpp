@@ -697,20 +697,9 @@ Artist::Artist(const string& Email, const string& Parola, const string& DisplayN
     this->ListaAlbume = ListaAlbume;
 }
 
-Artist::Artist(const Artist& artist)
-{
-
-    Utilizator::operator=(artist);
-    this->NumarUrmaritori = artist.NumarUrmaritori;
-    this->AscultatoriLunari = artist.AscultatoriLunari;
-    this->NumarAlbume = artist.NumarAlbume;
-    this->ListaAlbume.clear();
-    for (int i = 0; i < artist.NumarAlbume; i++)
-    {
-        ListaAlbume.push_back(artist.ListaAlbume[i]);
-    }
-
+Artist::Artist(const Artist& artist) : Utilizator(artist), NumarUrmaritori(artist.NumarUrmaritori), AscultatoriLunari(artist.AscultatoriLunari), NumarAlbume(artist.NumarAlbume), ListaAlbume(artist.ListaAlbume) {
 }
+
 
 Artist& Artist::operator= (const Artist& artist)
 {
@@ -2045,10 +2034,11 @@ void Aplicatie::ascultaMelodie(int indexUser) {
     int indexMelodie;
     cin >> indexMelodie;  // Presupunem că utilizatorul introduce un număr valid.
 
-    if (indexMelodie < 1 || indexMelodie > indexMelodieMap.size()) {
+    if (indexMelodie < 1 || indexMelodie > static_cast<int>(indexMelodieMap.size())) {
         cout << "Optiune invalida!" << endl;
         return;  // Verificăm dacă opțiunea este validă.
     }
+
 
     Ascultator* ascultator = dynamic_cast<Ascultator*>(this->UserList[indexUser]);
     if (!ascultator) {

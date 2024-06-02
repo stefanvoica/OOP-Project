@@ -237,10 +237,10 @@ public:
     {
         return this->Durata;
     }
-    void setDurata(int Durata)
+    /*void setDurata(int Durata)
     {
         this->Durata = Durata;
-    }
+    }*/
 
     bool operator< (const Melodie&) const;
 
@@ -442,7 +442,7 @@ public:
         return this->Nume;
     }
 
-    void addMelodie();
+   // void addMelodie();
 
 };
 
@@ -604,7 +604,7 @@ void Album::citire(ifstream& in)
     }
 
 }
-
+/*
 void Album::addMelodie()
 {
 
@@ -614,7 +614,7 @@ void Album::addMelodie()
     this->NumarMelodii++;
 
 }
-
+*/
 /// --------------------------------
 /// --------------------------------
 /// --------------------------------
@@ -831,7 +831,6 @@ void Artist::afisare(ofstream& out) const
     {
         out << this->ListaAlbume[i];
     }
-
 }
 
 void Artist::citire(ifstream& in)

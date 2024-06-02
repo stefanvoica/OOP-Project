@@ -630,7 +630,7 @@ public:
 
     Artist();
     Artist(const string& Email, const string& Parola, const string& DisplayName, int TipCont,
-           int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album>& ListaAlbume);
+           int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, const vector <Album>& ListaAlbume);
     Artist(const Artist& artist);
     Artist& operator= (const Artist& artist);
 
@@ -687,8 +687,8 @@ Artist::Artist()
     this->NumarAlbume = 0;
 }
 
-Artist::Artist(const string& Email, const string& Parola, const string& DisplayName, int TipCont, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album>& ListaAlbume):
-    Utilizator(Email, Parola, DisplayName, TipCont)
+Artist::Artist(const string& Email, const string& Parola, const string& DisplayName, int TipCont, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, const vector <Album>& ListaAlbume):
+        Utilizator(Email, Parola, DisplayName, TipCont)
 {
     this->TipCont = 2;
     this->NumarUrmaritori = NumarUrmaritori;
@@ -949,7 +949,7 @@ Ascultator::Ascultator(): Utilizator()
 }
 
 Ascultator::Ascultator(const string& Email, const string&  Parola, const string&  DisplayName, int TipCont, int NumarUrmariri, int MinuteAscultate, int Varsta):
-    Utilizator(Email, Parola, DisplayName, TipCont)
+        Utilizator(Email, Parola, DisplayName, TipCont)
 {
     this->TipCont = 1;
     this->NumarUrmariri = NumarUrmariri;
@@ -1136,9 +1136,9 @@ PremiumUser::PremiumUser()
 
 PremiumUser::PremiumUser(const string&  Email, const string&  Parola, const string&  DisplayName, int TipCont, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album>& ListaAlbume,
                          int NumarUrmariri, int MinuteAscultate, int Varsta, int ChartSpot):
-    Utilizator(Email, Parola, DisplayName, TipCont),
-    Artist(Email, Parola, DisplayName, TipCont, NumarUrmaritori, AscultatoriLunari, NumarAlbume, ListaAlbume),
-    Ascultator(Email, Parola, DisplayName, TipCont, NumarUrmariri, MinuteAscultate, Varsta)
+        Utilizator(Email, Parola, DisplayName, TipCont),
+        Artist(Email, Parola, DisplayName, TipCont, NumarUrmaritori, AscultatoriLunari, NumarAlbume, ListaAlbume),
+        Ascultator(Email, Parola, DisplayName, TipCont, NumarUrmariri, MinuteAscultate, Varsta)
 {
     this->TipCont = 3;
     this->ChartSpot = ChartSpot;
@@ -2035,7 +2035,9 @@ void Aplicatie::ascultaMelodie(int indexUser) {
     int cnt = 1;
     map <int, pair <Melodie, int>> indexMelodieMap;
 
-    for (const auto& [melodie, durata] : melodieDurata) {
+    for (const auto& pair : melodieDurata) {
+        const auto& melodie = pair.first;
+        const auto& durata = pair.second;
         indexMelodieMap[cnt] = {melodie, durata};
         cout << cnt++ << ". " << melodie << " - Durata: " << durata << " secunde\n";
     }

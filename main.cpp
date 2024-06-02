@@ -639,20 +639,20 @@ public:
     void afisare(ofstream& out) const override;
     void citire(ifstream& in) override;
 
-    void addAlbum();
+    void addAlbum() override;
 
-    int getTipCont() const
+    int getTipCont() const override
     {
         return this->TipCont;
     }
 
-    int pretAbonamentLunar();
-    int salariuLunar();
-    int getMinuteAscultate() const
+    int pretAbonamentLunar() override;
+    int salariuLunar() override;
+    int getMinuteAscultate() const override 
     {
         return -1;
     }
-    int getChartSpot() const
+    int getChartSpot() const override
     {
         return -1;
     }
@@ -907,20 +907,20 @@ public:
     void afisare(ofstream& out) const override;
     void citire(ifstream& in) override;
 
-    int pretAbonamentLunar();
-    int salariuLunar();
+    int pretAbonamentLunar() override;
+    int salariuLunar() override;
 
-    int getTipCont() const
+    int getTipCont() const override
     {
         return this->TipCont;
     }
-    int getMinuteAscultate() const
+    int getMinuteAscultate() const override
     {
         return this->MinuteAscultate;
     }
 
-    void addAlbum() {};
-    int getChartSpot() const
+    void addAlbum() override{};
+    int getChartSpot() const override
     {
         return -1;
     }
@@ -1104,23 +1104,23 @@ public:
     void afisare(ofstream& out) const override;
     void citire(ifstream& in) override;
 
-    int getTipCont() const
+    int getTipCont() const override
     {
         return this->TipCont;
     }
 
-    int pretAbonamentLunar();
-    int salariuLunar();
-    int getMinuteAscultate() const
+    int pretAbonamentLunar() override;
+    int salariuLunar() override;
+    int getMinuteAscultate() const override
     {
         return this->MinuteAscultate;
     }
-    int getChartSpot() const
+    int getChartSpot() const override
     {
         return this->ChartSpot;
     }
 
-    void addAlbum();
+    void addAlbum() override;
 
     virtual ~PremiumUser() {}
 
@@ -1457,7 +1457,7 @@ public:
                 string indexUserCitire;
                 cin >> indexUserCitire;
                 bool canBeExecuted = 1;
-                int indexUser;
+                int indexUser = 0;
 
                 try
                 {
@@ -1877,7 +1877,7 @@ void Aplicatie::readData()
         {
             this->UserList.push_back(new PremiumUser());
         }
-        fin >> *(this->UserList.back());
+        //fin >> *(this->UserList.back());
     }
 
     fin.close();

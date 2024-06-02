@@ -29,7 +29,7 @@ protected:
     string Email;
     string DisplayName;
     string Parola;
-
+    int TipCont;
 public:
     Utilizator();
     Utilizator(string Email, string Parola, string DisplayName);
@@ -43,11 +43,11 @@ public:
     friend ofstream& operator<< (ofstream& out, const Utilizator& user);
     friend ifstream& operator>> (ifstream& in, Utilizator& user);
 
-    virtual void afisare(ostream &out) const;
+    virtual void afisare(ostream &out) const override;
     virtual void citire(istream &in);
 
-    virtual void afisare(ofstream& out) const;
-    virtual void citire(ifstream& in);
+    virtual void afisare(ofstream& out) const override;
+    virtual void citire(ifstream& in) override;
 
     string getDisplayName() const
     {
@@ -623,7 +623,6 @@ void Album::addMelodie()
 class Artist : virtual public Utilizator
 {
 protected:
-
     int NumarUrmaritori;
     int AscultatoriLunari;
     int NumarAlbume;
@@ -631,7 +630,7 @@ protected:
 public:
 
     Artist();
-    Artist(string Email, string Parola, string DisplayName,
+    Artist(string Email, string Parola, string DisplayName, int TipCont,
            int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume);
     Artist(const Artist& artist);
     Artist& operator= (const Artist& artist);
@@ -679,10 +678,6 @@ public:
     void deleteAlbum(int nrAlbum);
 
     virtual ~Artist() {}
-
-    /// nu avem << si >> pentru ca sunt mosteniste de la utilizator si cand il apelezi se duce pe ele si dupa apeleaza afisare care e virtuala si apoi
-    /// merge in jos pana la afisarea din obiectu de tip curent si apoi aia se apeleaza (same la citire)
-
 };
 
 Artist::Artist()
@@ -693,10 +688,10 @@ Artist::Artist()
     this->NumarAlbume = 0;
 }
 
-Artist::Artist(string Email, string Parola, string DisplayName, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume):
+Artist::Artist(string Email, string Parola, string DisplayName, int TipCont, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume):
     Utilizator(Email, Parola, DisplayName)
 {
-
+    this->TipCont = 2;
     this->NumarUrmaritori = NumarUrmaritori;
     this->AscultatoriLunari = AscultatoriLunari;
     this->NumarAlbume = NumarAlbume;
@@ -1133,8 +1128,6 @@ public:
 
 };
 
-/// se apeleaza baza si apoi parinti in ordinea de la mostenire (prima data baza pt ca e mostenire virtuala)
-
 PremiumUser::PremiumUser()
 {
 
@@ -1145,12 +1138,10 @@ PremiumUser::PremiumUser()
 PremiumUser::PremiumUser(string Email, string Parola, string DisplayName, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume,
                          int NumarUrmariri, int MinuteAscultate, int Varsta, int ChartSpot):
     Utilizator(Email, Parola, DisplayName),
-    Artist(Email, Parola, DisplayName, NumarUrmaritori, AscultatoriLunari, NumarAlbume, ListaAlbume),
+    Artist(Email, Parola, DisplayName, TipCont, NumarUrmaritori, AscultatoriLunari, NumarAlbume, ListaAlbume),
     Ascultator(Email, Parola, DisplayName, NumarUrmariri, MinuteAscultate, Varsta)
 {
-
     this->ChartSpot = ChartSpot;
-
 }
 
 PremiumUser::PremiumUser(const PremiumUser& auxiliar): Utilizator(auxiliar), Artist(auxiliar), Ascultator(auxiliar)
@@ -2080,6 +2071,8 @@ void Aplicatie::ascultaMelodie(int indexUser)
     }
     */
 }
+
+
 
 int main()
 {

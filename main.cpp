@@ -1,235 +1,1899 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <string>
-#include <unordered_map>
+#include <cctype>
+#include <set>
+#include <list>
+#include <map>
+using namespace std;
 
-class Harta {
-private:
-    std::vector<std::string> layout;
+class IOInterface{
 public:
-    explicit Harta(const std::string& filename) {
-        std::ifstream file(filename);
-        std::string line;
-        while (getline(file, line))
-            layout.push_back(line);
+
+    virtual void afisare(ostream& out) const = 0;
+    virtual void citire(istream& in) = 0;
+
+    virtual void afisare(ofstream& out) const = 0;
+    virtual void citire(ifstream& in) = 0;
+
+};
+
+/// --------------------------------
+/// --------------------------------
+/// --------------------------------
+
+class Utilizator : public IOInterface {
+protected:
+
+    string Email;
+    string DisplayName;
+    string Parola;
+
+public:
+
+    Utilizator();
+    Utilizator(string Email, string Parola, string DisplayName);
+    Utilizator(const Utilizator& user);
+
+    Utilizator& operator= (const Utilizator& user);
+
+    friend ostream& operator<< (ostream& out, const Utilizator& user);
+    friend istream& operator>> (istream& in, Utilizator& user);
+
+    friend ofstream& operator<< (ofstream& out, const Utilizator& user);
+    friend ifstream& operator>> (ifstream& in, Utilizator& user);
+
+    virtual void afisare(ostream &out) const;
+    virtual void citire(istream &in);
+
+    virtual void afisare(ofstream& out) const;
+    virtual void citire(ifstream& in);
+
+    string getDisplayName() const {return this->DisplayName;}
+    string getEmail() const {return this->Email;}
+    string getParola() const {return this->Parola;}
+
+    void setDisplayName(string DisplayName) {this->DisplayName = DisplayName;}
+    void setEmail(string Email) {this->Email = Email;}
+    void setParola(string Parola) {this->Parola = Parola;}
+
+    virtual int getMinuteAscultate() const = 0;
+    virtual int pretAbonamentLunar() = 0;
+    virtual int salariuLunar() = 0;
+    virtual int getTipCont() const = 0;
+    virtual void addAlbum() = 0;
+    virtual int getChartSpot() const = 0;
+
+    virtual ~Utilizator() {}
+
+};
+
+Utilizator::Utilizator(){
+
+    this->Email = "ANONIM";
+    this->DisplayName = "ANONIM";
+    this->Parola = "ANONIM";
+
+}
+
+Utilizator::Utilizator(string Email, string Parola, string DisplayName){
+
+    this->Email = Email;
+    this->Parola = Parola;
+    this->DisplayName = DisplayName;
+
+}
+
+Utilizator::Utilizator(const Utilizator& user){
+
+    this->Email = user.Email;
+    this->Parola = user.Parola;
+    this->DisplayName = user.DisplayName;
+
+}
+
+Utilizator& Utilizator::operator= (const Utilizator& user){
+
+    if (this != &user)
+    {
+        this->Email = user.Email;
+        this->Parola = user.Parola;
+        this->DisplayName = user.DisplayName;
     }
 
-    Harta(const Harta& other) : layout(other.layout) {}
+    return *this;
 
-    Harta& operator=(const Harta& other) {
-            layout = other.layout;
-            return *this;
+}
+
+void Utilizator::afisare(ostream& out) const {
+
+    out << "Email: " << this->Email << endl;
+    out << "Parola: " << this->Parola << endl;
+    out << "Nume utilizator: " << this->DisplayName << endl;
+}
+
+void Utilizator::citire(istream& in){
+    cout << "Introduceti Email: ";
+    in >> this->Email;
+    cout << "Introduceti Parola: ";
+    in >> this->Parola;
+    cout << "Introduceti nume utilizator: ";
+    in >> this->DisplayName;
+}
+
+ostream& operator<< (ostream& out, const Utilizator& user){
+
+    user.afisare(out);
+
+    return out;
+
+}
+
+istream& operator>> (istream& in, Utilizator& user){
+
+    user.citire(in);
+
+    return in;
+
+}
+
+ofstream& operator<< (ofstream& out, const Utilizator& user) {
+
+    user.afisare(out);
+
+    return out;
+
+}
+
+ifstream& operator>> (ifstream& in, Utilizator& user) {
+
+    user.citire(in);
+
+    return in;
+}
+
+void Utilizator::afisare(ofstream& out) const {
+
+    out << this->Email << endl;
+    out << this->DisplayName << endl;
+    out << this->Parola << endl;
+
+}
+
+void Utilizator::citire(ifstream& in) {
+
+    in >> this->Email;
+    in >> this->DisplayName;
+    in >> this->Parola;
+
+}
+
+/// --------------------------------
+/// --------------------------------
+/// --------------------------------
+
+class Melodie : public IOInterface{
+private:
+
+    string Nume;
+    int Durata;
+    string Gen;
+    bool Explicit;
+
+public:
+
+    Melodie();
+    Melodie(string Nume, int Durata, string Gen, bool Explicit);
+    Melodie(const Melodie& copie);
+
+    Melodie& operator= (const Melodie& copie);
+
+    friend ostream& operator<< (ostream& out, const Melodie& song);
+    friend istream& operator>> (istream& in, Melodie& song);
+
+    friend ofstream& operator<< (ofstream& out, const Melodie& song);
+    friend ifstream& operator>> (ifstream& in, Melodie& song);
+
+    void afisare(ostream& out) const;
+    void citire(istream& in);
+
+    void afisare(ofstream& out) const;
+    void citire(ifstream& in);
+
+    int getDurata() const {return this->Durata;}
+    void setDurata(int Durata) {this->Durata = Durata;}
+
+    bool operator< (const Melodie&) const;
+
+};
+
+Melodie::Melodie(){
+
+    this->Nume = "ANONIM";
+    this->Durata = 0;
+    this->Gen = "ANONIM";
+    this->Explicit = 0;
+}
+
+Melodie::Melodie(string Nume, int Durata, string Gen, bool Explicit){
+
+    this->Nume = Nume;
+    this->Durata = Durata;
+    this->Gen = Gen;
+    this->Explicit = Explicit;
+}
+
+Melodie::Melodie(const Melodie& copie){
+
+    this->Nume = copie.Nume;
+    this->Durata = copie.Durata;
+    this->Gen = copie.Gen;
+    this->Explicit = copie.Explicit;
+}
+
+Melodie& Melodie::operator= (const Melodie& copie){
+
+    if (this != &copie)
+    {
+        this->Nume = copie.Nume;
+        this->Durata = copie.Durata;
+        this->Gen = copie.Gen;
+        this->Explicit = copie.Explicit;
     }
 
-    ~Harta() {
-        std::cout << "Map 1 - Completed; Next map: loading..." << std::endl;
+    return *this;
+}
+
+void Melodie::afisare(ostream& out) const {
+
+    out << "Nume: " << this->Nume << endl;
+    out << "Durata: " << this->Durata / 60 << ":";
+    (this->Durata % 60 < 10) ? cout << "0" << this->Durata % 60 : cout << this->Durata % 60;
+    out << endl <<"Gen: " << this->Gen << endl;
+    out << "Explicit: " << this->Explicit;
+
+}
+
+void Melodie::citire(istream& in){
+
+    cout << "Introduceti nume: ";
+    in >> this->Nume;
+    cout << "Introduceti durata (in secunde): ";
+    string auxDurata;
+    in >> auxDurata;
+    for (int i = 0; i < auxDurata.size(); i++)
+    {
+        if (!isdigit(auxDurata[i]))
+        {
+            throw -100;
+        }
     }
 
-    char getCell(size_t x, size_t y) const {
-    // Verificăm dacă coordonatele sunt în interiorul hărții
-    if (y < layout.size() && x < layout[y].size()) {
-        return layout[y][x];
+    if (auxDurata[0] == '0')
+    {
+        throw -100;
     }
-    // Returnăm un caracter de umplutură pentru coordonatele în afara hărții
-    return ' ';
+
+    this->Durata = 0;
+
+    for (int i = 0; i < auxDurata.size(); i++)
+    {
+        this->Durata = this->Durata * 10 + int(auxDurata[i] - 48);
+    }
+
+    cout << "Introduceti gen: ";
+    in >> this->Gen;
+    cout << "Este explicita (1/0): ";
+    string auxExplicit;
+    in >> auxExplicit;
+    if (auxExplicit != "0" && auxExplicit != "1")
+    {
+        throw -100;
+    }
+    this->Explicit = int(auxExplicit[0] - 48);
+
+}
+
+ostream& operator<< (ostream& out, const Melodie& song){
+
+    song.afisare(out);
+
+    return out;
+}
+
+istream& operator>> (istream& in, Melodie& song){
+
+    song.citire(in);
+
+    return in;
+
+}
+
+ofstream& operator<< (ofstream& out, const Melodie& song) {
+
+    song.afisare(out);
+
+    return out;
+
+}
+
+ifstream& operator>> (ifstream& in, Melodie& song) {
+
+    song.citire(in);
+
+    return in;
+
+}
+
+void Melodie::afisare(ofstream& out) const {
+
+    out << this->Nume << endl;
+    out << this->Durata << endl;
+    out << this->Gen << endl;
+    out << this->Explicit << endl;
+
+}
+
+void Melodie::citire(ifstream& in) {
+
+    in >> this->Nume;
+    in >> this->Durata;
+    in >> this->Gen;
+    in >> this->Explicit;
+
+}
+
+bool Melodie::operator< (const Melodie& aux) const
+{
+    return this->Durata < aux.getDurata();
+}
+
+/// --------------------------------
+/// --------------------------------
+/// --------------------------------
+
+class Album : public IOInterface {
+private:
+
+    string Nume;
+    int NumarMelodii;
+    vector <Melodie> ListaMelodii;
+
+public:
+
+    Album();
+    Album(string Nume, int NumarMelodii, vector <Melodie> ListaMelodii);
+    Album(const Album& album);
+
+    Album& operator= (const Album& album);
+
+    friend ostream& operator<<(ostream& out, const Album& album);
+    friend istream& operator>>(istream& in, Album& album);
+
+    friend ofstream& operator<<(ofstream& out, const Album& album);
+    friend ifstream& operator>>(ifstream& in, Album& album);
+
+    void afisare(ostream& out) const;
+    void citire(istream& in);
+
+    void afisare(ofstream& out) const;
+    void citire(ifstream& in);
+
+    int getNumarMelodii() const {return this->NumarMelodii;};
+    Melodie getMelodie(int i) const {return this->ListaMelodii[i];}
+    string getNumeAlbum() const {return this->Nume;}
+
+    void addMelodie();
+
+};
+
+Album::Album(){
+
+    this->Nume = "ANONIM";
+    this->NumarMelodii = 0;
+}
+
+Album::Album(string Nume, int NumarMelodii, vector <Melodie> ListaMelodii) {
+
+    this->Nume = Nume;
+    this->NumarMelodii = NumarMelodii;
+    for (int i = 0; i < NumarMelodii; i++)
+    {
+        this->ListaMelodii[i] = ListaMelodii[i];
+    }
+}
+
+Album::Album(const Album& album){
+
+    this->Nume = album.Nume;
+    this->NumarMelodii = album.NumarMelodii;
+    this->ListaMelodii = album.ListaMelodii;
+
+}
+
+Album& Album::operator= (const Album& album){
+
+    if (this != &album)
+    {
+        this->Nume = album.Nume;
+        this->NumarMelodii = album.NumarMelodii;
+        this->ListaMelodii.clear();
+        for (int i = 0; i < this->NumarMelodii; i++)
+        {
+            this->ListaMelodii.push_back(album.ListaMelodii[i]);
+        }
+    }
+
+    return *this;
+}
+
+void Album::afisare(ostream& out) const {
+
+    out << "Nume album: " << this->Nume << endl;
+    out << "Lista celor " << this->NumarMelodii << " melodii:";
+    for (int i = 0; i < NumarMelodii; i++)
+    {
+        out << endl << endl << i + 1 << ". ";
+        out << this->ListaMelodii[i];
+    }
+    out << endl;
+
+}
+
+void Album::citire(istream& in) {
+
+    cout << "Introduceti nume album: ";
+    in >> this->Nume;
+    cout << "Introduceti numar melodii: ";
+    string auxiliar;
+    in >> auxiliar;
+    for (int i = 0; i < auxiliar.size(); i++)
+    {
+        if (!isdigit(auxiliar[i]))
+        {
+            throw -100;
+        }
+    }
+
+    if (auxiliar[0] == '0')
+    {
+        throw -100;
+    }
+
+    this->NumarMelodii = 0;
+
+    for (int i = 0; i < auxiliar.size(); i++)
+    {
+        this->NumarMelodii = this->NumarMelodii * 10 + int(auxiliar[i] - 48);
+    }
+    this->ListaMelodii.clear();
+    for (int i = 0; i < NumarMelodii; i++)
+    {
+        Melodie aux;
+        cout << endl << "Melodia " << i+1 << ":" << endl;
+        cin >> aux;
+        this->ListaMelodii.push_back(aux);
+    }
+
 }
 
 
-void updateCell(size_t x, size_t y, char symbol) {
-    // Verificăm dacă coordonatele sunt în interiorul hărții
-    if (y < layout.size() && x < layout[y].size()) {
-        layout[y][x] = symbol;
+ostream& operator<< (ostream& out, const Album& album){
+
+    album.afisare(out);
+
+    return out;
+
+}
+
+istream& operator>> (istream& in, Album& album){
+
+    album.citire(in);
+
+    return in;
+
+}
+
+ofstream& operator<<(ofstream& out, const Album& album){
+
+    album.afisare(out);
+
+    return out;
+
+}
+
+ifstream& operator>>(ifstream& in, Album& album) {
+
+    album.citire(in);
+
+    return in;
+
+}
+
+void Album::afisare(ofstream& out) const {
+
+    out << this->Nume << endl;
+    out << this->NumarMelodii << endl;
+    for (int i = 0; i < NumarMelodii; i++)
+    {
+        out << this->ListaMelodii[i];
+    }
+
+}
+
+void Album::citire(ifstream& in) {
+
+    in >> this->Nume;
+    in >> this->NumarMelodii;
+    this->ListaMelodii.clear();
+    for (int i = 0; i < this->NumarMelodii; i++)
+    {
+        Melodie aux;
+        in >> aux;
+        this->ListaMelodii.push_back(aux);
+    }
+
+}
+
+void Album::addMelodie() {
+
+    Melodie Aux;
+    cin >> Aux;
+    this->ListaMelodii.push_back(Aux);
+    this->NumarMelodii++;
+
+}
+
+/// --------------------------------
+/// --------------------------------
+/// --------------------------------
+
+class Artist : virtual public Utilizator {
+protected:
+
+    int NumarUrmaritori;
+    int AscultatoriLunari;
+    int NumarAlbume;
+    vector <Album> ListaAlbume;
+    const int TipCont = 2;
+
+public:
+
+    Artist();
+    Artist(string Email, string Parola, string DisplayName,
+    int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume);
+    Artist(const Artist& artist);
+    Artist& operator= (const Artist& artist);
+
+    void afisare(ostream& out) const;
+    void citire(istream& in);
+
+    void afisare(ofstream& out) const;
+    void citire(ifstream& in);
+
+    void addAlbum();
+
+    int getTipCont() const {return this->TipCont;}
+
+    int pretAbonamentLunar();
+    int salariuLunar();
+    int getMinuteAscultate() const {return -1;}
+    int getChartSpot() const {return -1;}
+    int getLungimeAlbum(int i) const {return this->ListaAlbume[i].getNumarMelodii();}
+    int getNumarAlbume() const {return this->NumarAlbume;}
+    string getNumeAlbum(int i) const {return this->ListaAlbume[i].getNumeAlbum();}
+    Melodie getMelodieAlbum(int iMel, int iAlb) {return this->ListaAlbume[iAlb].getMelodie(iMel);}
+
+    void deleteAlbum(int nrAlbum);
+
+    virtual ~Artist() {}
+
+    /// nu avem << si >> pentru ca sunt mosteniste de la utilizator si cand il apelezi se duce pe ele si dupa apeleaza afisare care e virtuala si apoi
+    /// merge in jos pana la afisarea din obiectu de tip curent si apoi aia se apeleaza (same la citire)
+
+};
+
+Artist::Artist(){
+
+    this->NumarUrmaritori = 0;
+    this->AscultatoriLunari = 0;
+    this->NumarAlbume = 0;
+}
+
+Artist::Artist(string Email, string Parola, string DisplayName, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume):
+    Utilizator(Email, Parola, DisplayName) {
+
+    this->NumarUrmaritori = NumarUrmaritori;
+    this->AscultatoriLunari = AscultatoriLunari;
+    this->NumarAlbume = NumarAlbume;
+    this->ListaAlbume = ListaAlbume;
+}
+
+Artist::Artist(const Artist& artist){
+
+    Utilizator::operator=(artist);
+        this->NumarUrmaritori = artist.NumarUrmaritori;
+        this->AscultatoriLunari = artist.AscultatoriLunari;
+        this->NumarAlbume = artist.NumarAlbume;
+        this->ListaAlbume.clear();
+        for (int i = 0; i < artist.NumarAlbume; i++)
+        {
+            ListaAlbume.push_back(artist.ListaAlbume[i]);
+        }
+
+}
+
+Artist& Artist::operator= (const Artist& artist) {
+
+    if (this != &artist)
+    {
+        Utilizator::operator=(artist);
+        this->NumarUrmaritori = artist.NumarUrmaritori;
+        this->AscultatoriLunari = artist.AscultatoriLunari;
+        this->NumarAlbume = artist.NumarAlbume;
+        this->ListaAlbume.clear();
+        for (int i = 0; i < artist.NumarAlbume; i++)
+        {
+            ListaAlbume.push_back(artist.ListaAlbume[i]);
+        }
+    }
+
+    return *this;
+
+}
+
+void Artist::afisare(ostream& out) const {
+
+    Utilizator::afisare(out);
+    out << "Numar urmaritori: " << this->NumarUrmaritori << endl;
+    out << "Ascultatori lunari: " << this->AscultatoriLunari << endl;
+    out << "Artistul are " << this->NumarAlbume << " albume: " << endl;
+
+    for (int i = 0; i < this->NumarAlbume; i++)
+    {
+        out << endl << i+1 << ". ";
+        out << this->ListaAlbume[i];
+    }
+
+}
+
+void Artist::citire(istream& in) {
+
+    Utilizator::citire(in);
+    cout << "Introduceti numar urmaritori: ";
+    string auxUrmaritori;
+    in >> auxUrmaritori;
+
+    for (int i = 0; i < auxUrmaritori.size(); i++)
+    {
+        if (!isdigit(auxUrmaritori[i]))
+        {
+            throw 3.14;
+        }
+    }
+
+    this->NumarUrmaritori = 0;
+    for (int i = 0; i < auxUrmaritori.size(); i++)
+    {
+        this->NumarUrmaritori = this->NumarUrmaritori * 10 + int(auxUrmaritori[i] - 48);
+    }
+
+    cout << "Introduceti ascultatori lunari: ";
+    string auxAscultatori;
+    in >> auxAscultatori;
+
+    for (int i = 0; i < auxAscultatori.size(); i++)
+    {
+        if (!isdigit(auxAscultatori[i]))
+        {
+            throw 3.14;
+        }
+    }
+
+    this->AscultatoriLunari = 0;
+    for (int i = 0; i < auxAscultatori.size(); i++)
+    {
+        this->AscultatoriLunari = this->AscultatoriLunari * 10 + int(auxAscultatori[i] - 48);
+    }
+
+
+    cout << "Introduceti numar albume: ";
+
+    string auxNrAlbume;
+    in >> auxNrAlbume;
+
+    for (int i = 0; i < auxNrAlbume.size(); i++)
+    {
+        if (!isdigit(auxNrAlbume[i]))
+        {
+            throw 3.14;
+        }
+    }
+
+    this->NumarAlbume = 0;
+    for (int i = 0; i < auxNrAlbume.size(); i++)
+    {
+        this->NumarAlbume = this->NumarAlbume * 10 + int(auxNrAlbume[i] - 48);
+    }
+
+    this->ListaAlbume.clear();
+    for (int i = 0; i < this->NumarAlbume; i++)
+    {
+        cout << endl << i+1 << ". ";
+        Album aux;
+        in >> aux;
+        ListaAlbume.push_back(aux);
+    }
+
+}
+
+void Artist::afisare(ofstream& out) const {
+
+    out << this->TipCont << endl;
+    Utilizator::afisare(out);
+    out << this->NumarUrmaritori << endl;
+    out << this->AscultatoriLunari << endl;
+    out << this->NumarAlbume << endl;
+    for (int i = 0; i < this->NumarAlbume; i++)
+    {
+        out << this->ListaAlbume[i];
+    }
+
+}
+
+void Artist::citire(ifstream& in) {
+
+    Utilizator::citire(in);
+    in >> this->NumarUrmaritori;
+    in >> this->AscultatoriLunari;
+    in >> this->NumarAlbume;
+    this->ListaAlbume.clear();
+    for (int i = 0; i < this->NumarAlbume; i++)
+    {
+        Album aux;
+        in >> aux;
+        ListaAlbume.push_back(aux);
+    }
+
+}
+
+void Artist::addAlbum() {
+
+    Album album;
+    cin >> album;
+    this->ListaAlbume.push_back(album);
+    this->NumarAlbume++;
+
+}
+
+int Artist::pretAbonamentLunar(){
+
+    return 10 * this->NumarAlbume + 40;
+
+}
+
+int Artist::salariuLunar() {
+
+    return this->AscultatoriLunari / 40;
+
+}
+
+void Artist::deleteAlbum(int cntAlbum) {
+
+    ListaAlbume.erase(ListaAlbume.begin() + cntAlbum);
+    NumarAlbume--;
+
+}
+
+/// --------------------------------
+/// --------------------------------
+/// --------------------------------
+
+class Ascultator : virtual public Utilizator {
+protected:
+
+    int NumarUrmariri;
+    int MinuteAscultate;
+    int Varsta;
+    const int TipCont = 1;
+
+public:
+
+    Ascultator();
+    Ascultator(string Email, string Parola, string DisplayName, int NumarUrmariri, int MinuteAscultate, int Varsta);
+    Ascultator(const Ascultator& listener);
+
+    Ascultator& operator= (const Ascultator& listener);
+
+    void afisare(ostream& out) const;
+    void citire(istream& in);
+
+    void afisare(ofstream& out) const;
+    void citire(ifstream& in);
+
+    int pretAbonamentLunar();
+    int salariuLunar();
+
+    int getTipCont() const {return this->TipCont;}
+    int getMinuteAscultate() const {return this->MinuteAscultate;}
+
+    void addAlbum() {};
+    int getChartSpot() const {return -1;}
+
+    virtual ~Ascultator() {}
+
+    int getMinuteAscultate() {return this->MinuteAscultate;}
+    void setMinuteAscultate(int MinuteAscultate) {this->MinuteAscultate = MinuteAscultate;}
+
+};
+
+Ascultator::Ascultator(): Utilizator() {
+
+    this->NumarUrmariri = 0;
+    this->MinuteAscultate = 0;
+    this->Varsta = 0;
+
+}
+
+Ascultator::Ascultator(string Email, string Parola, string DisplayName, int NumarUrmariri, int MinuteAscultate, int Varsta):
+    Utilizator(Email, Parola, DisplayName) {
+
+    this->NumarUrmariri = NumarUrmariri;
+    this->MinuteAscultate = MinuteAscultate;
+    this->Varsta = Varsta;
+
+}
+
+Ascultator::Ascultator(const Ascultator& listener):Utilizator(listener) {
+
+    this->NumarUrmariri = listener.NumarUrmariri;
+    this->MinuteAscultate = listener.MinuteAscultate;
+    this->Varsta = listener.Varsta;
+
+}
+
+Ascultator& Ascultator::operator=(const Ascultator& listener) {
+
+    if (this != &listener)
+    {
+        Utilizator::operator=(listener);
+        this->NumarUrmariri = listener.NumarUrmariri;
+        this->MinuteAscultate = listener.MinuteAscultate;
+        this->Varsta = listener.Varsta;
+
+    }
+
+    return *this;
+
+}
+
+void Ascultator::afisare(ostream& out) const {
+
+    Utilizator::afisare(out);
+    out << "Numar urmariri: " << this->NumarUrmariri << endl;
+    out << "Minute ascultate: " << this->MinuteAscultate << endl;
+    out << "Varsta: " << this->Varsta << endl;
+
+}
+
+void Ascultator::citire(istream& in) {
+
+    Utilizator::citire(in);
+    cout << "Introduceti numar urmariri: ";
+    string auxUrmariri;
+    in >> auxUrmariri;
+
+    for (int i = 0; i < auxUrmariri.size(); i++)
+    {
+        if (!isdigit(auxUrmariri[i]))
+        {
+            throw 3.14;
+        }
+    }
+    this->NumarUrmariri = 0;
+    for (int i = 0; i < auxUrmariri.size(); i++)
+    {
+        this->NumarUrmariri = this->NumarUrmariri * 10 + int(auxUrmariri[i] - 48);
+    }
+
+    cout << "Introduceti numar minute ascultate: ";
+    string auxMinAscultate;
+    in >> auxMinAscultate;
+    for (int i = 0; i < auxMinAscultate.size(); i++)
+    {
+        if (!isdigit(auxMinAscultate[i]))
+        {
+            throw 3.14;
+        }
+    }
+    this->MinuteAscultate = 0;
+    for (int i = 0; i < auxMinAscultate.size(); i++)
+    {
+        this->MinuteAscultate = this->MinuteAscultate * 10 + int(auxMinAscultate[i] - 48);
+    }
+
+    cout << "Introduceti varsta: ";
+    string auxVarsta;
+    in >> auxVarsta;
+    for (int i = 0; i < auxVarsta.size(); i++)
+    {
+        if (!isdigit(auxVarsta[i]))
+        {
+            throw 3.14;
+        }
+    }
+    this->Varsta = 0;
+    for (int i = 0; i < auxVarsta.size(); i++)
+    {
+        this->Varsta = this->Varsta * 10 + int(auxVarsta[i] - 48);
     }
 }
 
-    friend std::ostream& operator<<(std::ostream& os, const Harta& map) {
-        for (const auto& line : map.layout) {
-            os << line << "\n";
+void Ascultator::afisare(ofstream& out) const {
+
+    out << this->TipCont << endl;
+    Utilizator::afisare(out);
+    out << this->NumarUrmariri << endl;
+    out << this->MinuteAscultate << endl;
+    out << this->Varsta << endl;
+
+}
+
+void Ascultator::citire(ifstream& in) {
+
+    Utilizator::citire(in);
+    in >> this->NumarUrmariri;
+    in >> this->MinuteAscultate;
+    in >> this->Varsta;
+
+}
+
+int Ascultator::pretAbonamentLunar() {
+
+    return 20;
+
+}
+
+int Ascultator::salariuLunar() {
+
+    return -1;
+
+}
+
+
+
+/// --------------------------------
+/// --------------------------------
+/// --------------------------------
+
+class PremiumUser: public Artist, public Ascultator {
+private:
+
+    int ChartSpot;
+    const int TipCont = 3;
+
+public:
+
+    PremiumUser();
+    PremiumUser(string Email, string Parola, string DisplayName, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume, int NumarUrmariri, int MinuteAscultate, int Varsta, int ChartSpot);
+    PremiumUser(const PremiumUser& auxiliar);
+    PremiumUser& operator= (const PremiumUser& auxiliar);
+
+    void afisare(ostream& out) const;
+    void citire(istream& in);
+
+    void afisare(ofstream& out) const;
+    void citire(ifstream& in);
+
+    int getTipCont() const {return this->TipCont;}
+
+    int pretAbonamentLunar();
+    int salariuLunar();
+    int getMinuteAscultate() const {return this->MinuteAscultate;}
+    int getChartSpot() const {return this->ChartSpot;}
+
+    void addAlbum();
+
+    virtual ~PremiumUser() {}
+
+};
+
+/// se apeleaza baza si apoi parinti in ordinea de la mostenire (prima data baza pt ca e mostenire virtuala)
+
+PremiumUser::PremiumUser() {
+
+    this->ChartSpot = 0;
+
+}
+
+PremiumUser::PremiumUser(string Email, string Parola, string DisplayName, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume,
+    int NumarUrmariri, int MinuteAscultate, int Varsta, int ChartSpot):
+    Utilizator(Email, Parola, DisplayName),
+    Artist(Email, Parola, DisplayName, NumarUrmaritori, AscultatoriLunari, NumarAlbume, ListaAlbume),
+    Ascultator(Email, Parola, DisplayName, NumarUrmariri, MinuteAscultate, Varsta){
+
+    this->ChartSpot = ChartSpot;
+
+}
+
+PremiumUser::PremiumUser(const PremiumUser& auxiliar): Utilizator(auxiliar), Artist(auxiliar), Ascultator(auxiliar) {
+
+    this->ChartSpot = auxiliar.ChartSpot;
+
+}
+
+PremiumUser& PremiumUser::operator= (const PremiumUser& auxiliar) {
+
+    if (this != &auxiliar)
+    {
+        Artist::operator=(auxiliar);
+        this->NumarUrmariri = auxiliar.NumarUrmariri;
+        this->MinuteAscultate = auxiliar.MinuteAscultate;
+        this->Varsta = auxiliar.Varsta;
+        this->ChartSpot = auxiliar.ChartSpot;
+    }
+
+    return *this;
+
+}
+
+void PremiumUser::afisare(ostream& out) const {
+
+    Artist::afisare(out);
+    out << "Numar urmariri: " << this->NumarUrmariri << endl;
+    out << "Minute ascultate: " << this->MinuteAscultate << endl;
+    out << "Varsta: " << this->Varsta << endl;
+    out << "Loc clasament: " << this->ChartSpot << endl;
+
+}
+
+void PremiumUser::citire(istream& in) {
+
+    Artist::citire(in);
+    cout << "Introduceti numar urmariri: ";
+    string auxUrmariri;
+    in >> auxUrmariri;
+
+    for (int i = 0; i < auxUrmariri.size(); i++)
+    {
+        if (!isdigit(auxUrmariri[i]))
+        {
+            throw 3.14;
         }
-        return os;
     }
-};
+    this->NumarUrmariri = 0;
+    for (int i = 0; i < auxUrmariri.size(); i++)
+    {
+        this->NumarUrmariri = this->NumarUrmariri * 10 + int(auxUrmariri[i] - 48);
+    }
 
-class Bomb {
-private:
-    int x, y;
-    int explosionRange;
+    cout << "Introduceti numar minute ascultate: ";
+    string auxMinAscultate;
+    in >> auxMinAscultate;
+    for (int i = 0; i < auxMinAscultate.size(); i++)
+    {
+        if (!isdigit(auxMinAscultate[i]))
+        {
+            throw 3.14;
+        }
+    }
+    this->MinuteAscultate = 0;
+    for (int i = 0; i < auxMinAscultate.size(); i++)
+    {
+        this->MinuteAscultate = this->MinuteAscultate * 10 + int(auxMinAscultate[i] - 48);
+    }
+
+    cout << "Introduceti varsta: ";
+    string auxVarsta;
+    in >> auxVarsta;
+    for (int i = 0; i < auxVarsta.size(); i++)
+    {
+        if (!isdigit(auxVarsta[i]))
+        {
+            throw 3.14;
+        }
+    }
+    this->Varsta = 0;
+    for (int i = 0; i < auxVarsta.size(); i++)
+    {
+        this->Varsta = this->Varsta * 10 + int(auxVarsta[i] - 48);
+    }
+
+    cout << "Introduceti loc clasament: ";
+    string auxSpot;
+    in >> auxSpot;
+    for (int i = 0; i < auxSpot.size(); i++)
+    {
+        if (!isdigit(auxSpot[i]))
+        {
+            throw 3.14;
+        }
+    }
+    this->ChartSpot = 0;
+    for (int i = 0; i < auxSpot.size(); i++)
+    {
+        this->ChartSpot = this->ChartSpot * 10 + int(auxSpot[i] - 48);
+    }
+
+}
+
+void PremiumUser::afisare(ofstream& out) const {
+
+    out << this->TipCont << endl;
+    Utilizator::afisare(out);
+    out << this->NumarUrmaritori << endl;
+    out << this->AscultatoriLunari << endl;
+    out << this->NumarAlbume << endl;
+    for (int i = 0; i < this->NumarAlbume; i++)
+    {
+        out << this->ListaAlbume[i];
+    }
+    out << this->NumarUrmariri << endl;
+    out << this->MinuteAscultate << endl;
+    out << this->Varsta << endl;
+    out << this->ChartSpot << endl;
+
+}
+
+void PremiumUser::citire(ifstream& in) {
+
+    Artist::citire(in);
+    in >> this->NumarUrmariri;
+    in >> this->MinuteAscultate;
+    in >> this->Varsta;
+    in >> this->ChartSpot;
+
+}
+
+void PremiumUser::addAlbum() {
+
+    Album album;
+    cin >> album;
+    this->ListaAlbume.push_back(album);
+    this->NumarAlbume++;
+
+}
+
+int PremiumUser::pretAbonamentLunar() {
+
+    return 40 + 15 * this->NumarAlbume;
+
+}
+
+int PremiumUser::salariuLunar() {
+
+    return this->AscultatoriLunari / 30;
+
+}
+
+/// --------------------------------
+/// --------------------------------
+/// --------------------------------
+
+class ExceptieOptiuneInexistenta: public exception {
 public:
-    Bomb(int x, int y, int explosionRange) : x(x), y(y), explosionRange(explosionRange) {}
-
-    int getX() const { return x; }
-    int getY() const { return y; }
-
-    bool isInRange(int targetX, int targetY) const {
-        return abs(targetX - x) <= explosionRange && abs(targetY - y) <= explosionRange;
+    virtual const char* what() const throw()
+    {
+        return "Ati introdus o optiune inexistenta!";
     }
 
-    friend std::ostream& operator<<(std::ostream& os, const Bomb& bomb) {
-        os << "Bomba la (" << bomb.x << ", " << bomb.y << ") cu raza " << bomb.explosionRange;
-        return os;
-    }
-};
+}exceptieOptiune;
 
-class Player {
-private:
-    std::string name;
-    int x, y;
-    bool isAlive;
-    Harta& map;
-    std::vector<Bomb>& bombs;
+class ExeceptieParolaAdmin: public exception {
 public:
-    Player(const std::string& name, int startX, int startY, Harta& map, std::vector<Bomb>& bombs): name(name), x(startX), y(startY), isAlive(true), map(map), bombs(bombs) {}
-
-    int getX() const { return x; }
-    int getY() const { return y; }
-    std::string getName() const {return name;}
-
-    void placeBomb(int explosionRange) {
-        bombs.push_back(Bomb(x, y, explosionRange));
-        map.updateCell(x,y,'x');
+    virtual const char* what() const throw()
+    {
+        return "Parola gresita. Aplicatia se va inchide.";
     }
+}exceptiParolaaaaa;
 
-    void die() {
-        if(isAlive) {
-            isAlive = false;
-            std::cout << name << " has died." << std::endl << std::endl;
+class ExceptieNuAlbume: public exception {
+public:
+    virtual const char* what() const throw()
+    {
+        return "Pentru a sterge un album trebuie sa aveti cel putin un album!";
+    }
+}exceptieAlbumInexistent;
+
+bool checkNrInList(char nr, string v)
+{
+    for (int i = 0; i < v.size(); i++)
+    {
+        if (v[i] == nr)
+        {
+            return 1;
         }
     }
 
-    void move(int deltaX, int deltaY) {
-        int newX = x + deltaX;
-        int newY = y + deltaY;
-        map.updateCell(newX, newY, name[0]);
-        if(map.getCell(x, y) != 'x')
-            map.updateCell(x, y, '.');
-        x = newX;
-        y = newY;
+    return 0;
+}
+
+bool checkNrInInterval(char nr, int lowerBound, int upperBound)
+{
+    return lowerBound <= int(nr) - 48 && int(nr) - 48 <= upperBound;
+}
+
+/// --------------------------------
+/// --------------------------------
+/// --------------------------------
+
+class Aplicatie {
+private:
+
+    static Aplicatie* ob;
+    vector <Utilizator*> UserList;
+    Aplicatie() = default;
+    Aplicatie(const Aplicatie&) = delete;
+    static int numarInstante;
+    set <Melodie> MelodiiAscultateUnice;
+    list <Melodie> MelodiiAscultate;
+
+public:
+
+    static Aplicatie* getInstanta()
+    {
+        numarInstante++;
+        if (!ob)
+        {
+            ob = new Aplicatie();
+        }
+
+        return ob;
     }
 
-    friend std::ostream& operator<<(std::ostream& os, const Player& player) {
-        os << "Player: " << player.name << " Position: (" << player.x << ", "
-        << player.y << ") Alive: " << (player.isAlive ? "Yes" : "No");
-        return os;
+    void addUser();
+    void printUserList();
+    void deleteUser();
+
+    void readData();
+    void writeData();
+
+    string getNumeAlbum(int indexUser, int indexAlbum) const;
+    int getNumarUseri() const;
+    string getNumeUser(int i) const;
+    string getParolaUser(int i) const;
+    string getEmailUser(int i) const;
+    int getTipContUser(int i) const;
+    int getMinuteAscultateUser(int i) const;
+    int getChartSpotUser(int i) const;
+
+    void setNumeUser(int i, string Nume);
+    void setParolaUser(int i, string Parola);
+    void setEmailUser(int i, string Email);
+
+    map <Melodie, int> creeazaMap();
+
+    void addAlbumUser(int i);
+
+    void deleteLastUser();
+
+    void ascultaMelodie(int);
+
+    bool dateCorecte(string Email, string Parola, int indexUser)
+    {
+        return Email == this->getEmailUser(indexUser) && Parola == this->getParolaUser(indexUser);
     }
+
+    int getNumarAlbumeUser(int i);
+    void deleteAlbumUser(int indexUser, int indexAlbum);
+
+    void startApp()
+    {
+        this->readData();
+
+        cout << "Bine ati venit! ";
+
+        int k1 = 1;
+        while (k1) {
+
+            cout << "Alegeti o actiune." << endl;
+            cout << "1. Login" << endl;
+            cout << "2. Create" << endl;
+            cout << "3. Admin" << endl;
+            cout << "0. Exit" << endl;
+            string comanda1;
+            try
+            {
+                cin >> comanda1;
+                if (comanda1.length() != 1 || !checkNrInList(comanda1[0], "1230"))
+                {
+                    throw exceptieOptiune;
+                }
+            }
+            catch(exception &exceptie)
+            {
+                system("CLS");
+                cout << exceptie.what() << endl << endl;
+            }
+
+            if (comanda1 == "1")
+            {
+                system("CLS");
+                cout << "Alegeti un cont:" << endl;
+                for (int i = 0; i < this->getNumarUseri(); i++)
+                {
+                    cout << i+1 << ". " << this->getNumeUser(i) << endl;
+                }
+                string indexUserCitire;
+                cin >> indexUserCitire;
+                bool canBeExecuted = 1;
+                int indexUser;
+
+                try
+                {
+                    if (indexUserCitire.size() != 1 || !checkNrInInterval(indexUserCitire[0], 1, this->getNumarUseri()))
+                    {
+                        canBeExecuted = 0;
+                        throw exceptieOptiune;
+                    }
+                    indexUser = int(indexUserCitire[0]) - 49;
+                }
+                catch(exception &exceptie)
+                {
+                    system("CLS");
+                    cout << exceptie.what() << endl << endl;
+                }
+
+                if (canBeExecuted)
+                {
+
+                    system("CLS");
+                    string mail, parola;
+                    cout << "Introduceti email: ";
+                    cin >> mail;
+                    cout << "Introduceti parola: ";
+                    cin >> parola;
+                    system("CLS");
+
+                    if (this->dateCorecte(mail, parola, indexUser))
+                    {
+                        int currentAccType = this->getTipContUser(indexUser);
+                        int k2 = 1;
+                        while (k2)
+                        {
+                            cout << "Alege o optiune:" << endl << endl;
+                            cout << "1. Schimba nume" << endl;
+                            cout << "2. Schimba parola" << endl;
+                            cout << "3. Schimba email" << endl;
+                            if (currentAccType == 1)
+                            {
+                                cout << "4. Afiseaza minute ascultate" << endl;
+                                cout << "5. Asculta melodie" << endl;
+                            }
+                            else if (currentAccType == 2)
+                            {
+                                cout << "4. Adauga album" << endl;
+                                cout << "5. Sterge album" << endl;
+                            }
+                            else
+                            {
+                                cout << "4. Afiseaza minute ascultate" << endl;
+                                cout << "5. Adauga album" << endl;
+                                cout << "6. Afiseaza loc clasament" << endl;
+                                cout << "7. Sterge album" << endl;
+                                cout << "8. Asculta melodie" << endl;
+                            }
+                            cout << "0. Exit" << endl;
+                            string comanda2;
+                            cin >> comanda2;
+                            try
+                            {
+                                if (comanda2.length() != 1)
+                                {
+                                    throw exceptieOptiune;
+                                }
+                                if (currentAccType == 1  && !checkNrInList(comanda2[0], "123450"))
+                                {
+                                    throw exceptieOptiune;
+                                }
+                                if (currentAccType == 2 && !checkNrInList(comanda2[0], "123450"))
+                                {
+                                    throw exceptieOptiune;
+                                }
+                                if (currentAccType == 3 &&  !checkNrInList(comanda2[0], "123456780"))
+                                {
+                                    throw exceptieOptiune;
+                                }
+                            }
+                            catch(exception &exceptie)
+                            {
+                                system("CLS");
+                                cout << "Ati fost deconectat pentru ca ati ales o actiune inexistenta!" << endl << endl;
+                                break;
+                            }
+
+                            if (comanda2 == "1")
+                            {
+                                system("CLS");
+                                cout << "Introduceti noul nume: ";
+                                string nume;
+                                cin >> nume;
+                                this->setNumeUser(indexUser, nume);
+                            }
+                            else if (comanda2 == "2")
+                            {
+                                system("CLS");
+                                cout << "Introduceti noua parola: ";
+                                string parola;
+                                cin >> parola;
+                                this->setParolaUser(indexUser, parola);
+                            }
+                            else if (comanda2 == "3")
+                            {
+                                system("CLS");
+                                cout << "Introduceti noul email: ";
+                                string email;
+                                cin >> email;
+                                this->setEmailUser(indexUser, email);
+                            }
+                            else if (comanda2 == "4" && (currentAccType == 1 || currentAccType == 3))
+                            {
+                                system("CLS");
+                                cout <<"Minute ascultate: " << this->getMinuteAscultateUser(indexUser) << endl << endl;
+                            }
+                            else if ((comanda2 == "4" && currentAccType == 2) || (comanda2 == "5" && currentAccType == 3))
+                            {
+                                try
+                                {
+                                    this->addAlbumUser(indexUser);
+                                    system("CLS");
+                                    cout << "Album adaugat cu succes" << endl << endl;
+                                }
+                                catch(int)
+                                {
+                                    system("CLS");
+                                    cout << "Ati introdus date invalide! Ati fost deconectat si progresul nu v-a fost salvat." << endl << endl;
+                                    break;
+                                }
+                            }
+                            else if (comanda2 == "6" && currentAccType == 3)
+                            {
+                                cout << "Loc clasament: " << this->getChartSpotUser(indexUser) << endl << endl;
+                            }
+                            else if (currentAccType == 2 && comanda2 == "5" || currentAccType == 3 && comanda2 == "7")
+                            {
+                                system("CLS");
+                                try
+                                {
+
+                                    if (this->getNumarAlbumeUser(indexUser) == 0)
+                                    {
+                                        throw exceptieAlbumInexistent;
+                                    }
+
+                                    cout << "Alegeti albumul care sa fie sters:" << endl;
+
+                                    for (int i = 0; i < this->getNumarAlbumeUser(indexUser); i++)
+                                    {
+                                        cout << i+1 << ". " << this->getNumeAlbum(indexUser, i) << endl;
+                                    }
+
+                                    string indexAlbumCitire;
+                                    cin >> indexAlbumCitire;
+                                    int indexAlbum;
+                                    if (indexAlbumCitire.size() != 1 || !checkNrInInterval(indexAlbumCitire[0], 1, this->getNumarAlbumeUser(indexUser)))
+                                    {
+                                        throw exceptieOptiune;
+                                    }
+                                    indexAlbum = int(indexUserCitire[0]) - 49;
+                                    this->deleteAlbumUser(indexUser, indexAlbum);
+                                    system("CLS");
+                                    cout << "Album sters cu succes!" << endl << endl;
+                                }
+                                catch(exception& e)
+                                {
+                                    system("CLS");
+                                    cout << e.what() << endl << endl;
+                                }
+                            }
+                            else if (currentAccType == 1 && comanda2 == "5" || currentAccType == 3 && comanda2 == "8")
+                            {
+                                system("CLS");
+                                try
+                                {
+                                    this->ascultaMelodie(indexUser);
+                                }
+                                catch(int)
+                                {
+                                    cout << "Nu exista melodii care sa fie ascultate!" << endl << endl;
+                                }
+
+                            }
+                            else if (comanda2 == "0")
+                            {
+                                system("CLS");
+                                k2 = 0;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        system("CLS");
+                        cout << "Parola sau email gresite" << endl << endl;
+                    }
+                }
+
+            }
+            else if (comanda1 == "2")
+            {
+                int succes = 1;
+                try
+                {
+                    this->addUser();
+                }
+                catch(...)
+                {
+                    system("CLS");
+                    succes = 0;
+                    cout << "A aparut o problema, progresul nu a fost salvat!" << endl << endl;
+                    this->deleteLastUser();
+                }
+                if (succes)
+                {
+                    system("CLS");
+                    cout << "Cont adaugat cu succes!" << endl << endl;
+                }
+
+            }
+            else if (comanda1 == "3")
+            {
+                system("CLS");
+                cout << "Introduceti parola pentru modul admin: ";
+                string parola;
+                cin >> parola;
+                try
+                {
+                    if (parola != "admin")
+                    {
+                        throw exceptiParolaaaaa;
+                    }
+                }
+                catch(ExeceptieParolaAdmin& excep)
+                {
+                    system("CLS");
+                    cout << excep.what() << '\n';
+                    break;
+                }
+                int k2 = 1;
+                system("CLS");
+                while (k2)
+                {
+                    cout << "Alegeti o optiune:" << endl << endl;
+                    cout << "1.Afisati lista useri" << endl;
+                    cout << "2.Stergeti un utilizator" << endl;
+                    cout << "3.Afiseaza melodii ascultate unice" << endl;
+                    cout << "4.Afiseaza istoric melodii ascultate" << endl;
+                    cout << "0.Exit" << endl;
+                    string comanda2;
+                    cin >> comanda2;
+                    try
+                    {
+                        if (comanda2.length() != 1 || !checkNrInList(comanda2[0], "12340"))
+                        {
+                            throw exceptieOptiune;
+                        }
+                    }
+                    catch(exception &exceptie)
+                    {
+                        system("CLS");
+                        cout << exceptie.what() << endl << endl;
+                    }
+
+                    if (comanda2 == "1")
+                    {
+                        system("CLS");
+                        this->printUserList();
+                        cout << endl;
+                    }
+                    else if (comanda2 == "2")
+                    {
+                        system("CLS");
+                        try
+                        {
+                            this->deleteUser();
+                            system("CLS");
+                            cout << "Utilizator sters cu succes!" << endl << endl;
+                        }
+                        catch(...)
+                        {
+                            system("CLS");
+                            cout << "A aparut o eroare, contul utilizatorului nu a fost sters." << endl << endl;
+                        }
+                    }
+                    else if(comanda2 == "3")
+                    {
+                        system("CLS");
+                        cout << "Melodiile unice ascultate sunt: " << endl << endl;
+                        int cnt = 1;
+                        for (auto iterator = this->MelodiiAscultateUnice.begin(); iterator != this->MelodiiAscultateUnice.end(); iterator++)
+                        {
+                            cout << cnt++ << ". " << *iterator << endl << "------------------" << endl;
+                        }
+                        cout << endl;
+                    }
+                    else if(comanda2 == "4")
+                    {
+                        system("CLS");
+                        cout << "Istoricul melodiilor ascultate este: " << endl;
+                        int cnt = 1;
+                        for (auto iterator = this->MelodiiAscultate.begin(); iterator != this->MelodiiAscultate.end(); iterator++)
+                        {
+                            cout << cnt++ << ". " << *iterator << endl << "------------------" << endl;
+                        }
+                        cout << endl;
+                    }
+                    else if (comanda2 == "0")
+                    {
+                        system("CLS");
+                        k2 = 0;
+                    }
+                }
+
+            }
+            else if(comanda1 == "0")
+            {
+                system("CLS");
+                k1 = 0;
+            }
+        }
+
+
+        this->writeData();
+    }
+
+    ~Aplicatie()
+    {
+        numarInstante--;
+        if (numarInstante == 0)
+        {
+            for (int i = 0; i < UserList.size(); i++)
+            {
+                delete UserList[i];
+            }
+        }
+    }
+
 };
 
-class Game {
-private:
-    Harta gameMap;
-    std::vector<Player> players;
-    std::vector<Bomb> bombs;
-public:
-    explicit Game(const Harta& map) : gameMap(map) {}
+void Aplicatie::addUser()
+{
+    system("CLS");
+    cout << "Alegeti tipul de cont:" << endl;
+    cout << "1. Ascultator" << endl;
+    cout << "2. Artist" << endl;
+    cout << "3. Utilizator Premium" << endl;
+    int k;
+    cin >> k;
+    if (k == 1) {
+        this->UserList.push_back(new Ascultator());
+    }
+    else if (k == 2) {
+        this->UserList.push_back(new Artist());
+    }
+    else if (k == 3) {
+        this->UserList.push_back(new PremiumUser());
+    }
+    system("CLS");
+    cin >> *(this->UserList.back());
 
+}
 
-    Harta& getMap() {
-        return gameMap;
+void Aplicatie::printUserList() {
+
+    for (int i = 0; i < UserList.size(); i++)
+    {
+        cout << endl << "Utilizator " << i+1 << ": " << endl << endl;
+        cout << *(this->UserList[i]) << endl << "----------------------" << endl;
     }
 
-    void addPlayer(const Player& player) {
-        players.push_back(player);
-        gameMap.updateCell(player.getX(), player.getY(), player.getName()[0]);
+}
+
+void Aplicatie::deleteUser() {
+
+    cout << "Alegeti userul care sa fie sters" << endl;
+    for (int i = 0; i < this->getNumarUseri(); i++)
+    {
+        cout << i+1 << ". " << this->getNumeUser(i) << endl;
+    }
+    string indexUserCitire;
+    cin >> indexUserCitire;
+    int indexUser;
+    if (indexUserCitire.size() != 1 || !checkNrInInterval(indexUserCitire[0], 1, this->UserList.size()))
+    {
+        throw exceptieOptiune;
+    }
+    indexUser = int(indexUserCitire[0]) - 49;
+    delete this->UserList[indexUser];
+    this->UserList.erase(this->UserList.begin() + indexUser);
+
+}
+
+void Aplicatie::readData() {
+
+    ifstream fin;
+    fin.open("dateUtilizatori.txt");
+    int nrConturi;
+    fin >> nrConturi;
+    for (int i = 0; i < nrConturi; i++)
+    {
+        int accType;
+        fin >> accType;
+        if (accType == 1) {
+            this->UserList.push_back(new Ascultator());
+        }
+        else if (accType == 2) {
+            this->UserList.push_back(new Artist());
+        }
+        else if (accType == 3) {
+            this->UserList.push_back(new PremiumUser());
+        }
+        fin >> *(this->UserList.back());
     }
 
-    Player& getPlayer(size_t index) {
-        if (index < players.size())
-            return players[index];
-        throw std::out_of_range("Invalid player index");
+    fin.close();
+
+}
+
+void Aplicatie::writeData() {
+
+    ofstream fout;
+    fout.open("dateUtilizatori.txt");
+    fout << this->UserList.size() << endl;
+    for (int i = 0; i < this->UserList.size(); i++)
+    {
+        fout << *(this->UserList[i]);
     }
 
+    fout.close();
 
-    std::vector<Bomb>& getBombs() {
-        return bombs;
-    }
+}
 
-    void explodeAllBombs() {
-        for (auto& bomb : bombs) {
-            gameMap.updateCell(bomb.getX(), bomb.getY(),'X');
-            for (auto& player : players) {
-                if (bomb.isInRange(player.getX(), player.getY())) {
-                    player.die();
+void Aplicatie::deleteLastUser()
+{
+    int index = this->UserList.size() - 1;
+    delete this->UserList[index];
+    this->UserList.erase(this->UserList.begin() + index);
+}
+
+int Aplicatie::getNumarUseri() const {return this->UserList.size();}
+
+string Aplicatie::getNumeUser(int i) const {return this->UserList[i]->getDisplayName();}
+
+string Aplicatie::getParolaUser(int i) const {return this->UserList[i]->getParola();}
+
+string Aplicatie::getEmailUser(int i) const {return this->UserList[i]->getEmail();}
+
+int Aplicatie::getTipContUser(int i) const {return this->UserList[i]->getTipCont();}
+
+void Aplicatie::setNumeUser(int i, string Nume) {this->UserList[i]->setDisplayName(Nume);}
+
+void Aplicatie::setEmailUser(int i, string Email) {this->UserList[i]->setEmail(Email);}
+
+void Aplicatie::setParolaUser(int i, string Parola) {this->UserList[i]->setParola(Parola);}
+
+int Aplicatie::getMinuteAscultateUser(int i) const {return this->UserList[i]->getMinuteAscultate();}
+
+void Aplicatie::addAlbumUser(int i) {this->UserList[i]->addAlbum();}
+
+string Aplicatie::getNumeAlbum(int indexUser, int indexAlbum) const {
+
+    /// aici this->UserList[indexUser] e un utilizator* si trebuie sa ii facem cast la artist* ca sa putem folosi get album
+
+    Artist* artistptr;
+    artistptr = dynamic_cast<Artist*> (this->UserList[indexUser]);
+
+    /// nu verificam ca e diferit de null ca nu are cum sa fie null ca toate astea 3 cu dynamic_cast sunt apelate intr un if
+    /// adica se apeleaza doar daca this->UserList[indexUser] retine adresa de artist/premium user
+
+    return (*artistptr).getNumeAlbum(indexAlbum);
+
+}
+
+int Aplicatie::getNumarAlbumeUser(int i){
+
+    Artist* artistptr;
+    artistptr = dynamic_cast<Artist*> (this->UserList[i]);
+
+    return (*artistptr).getNumarAlbume();
+
+}
+
+int Aplicatie::getChartSpotUser(int i) const {return this->UserList[i]->getChartSpot();}
+
+void Aplicatie::deleteAlbumUser(int indexUser, int indexAlbum)
+{
+    Artist* artistptr;
+    artistptr = dynamic_cast<Artist*> (this->UserList[indexUser]);
+
+    (*artistptr).deleteAlbum(indexAlbum);
+
+}
+
+Aplicatie* Aplicatie::ob=0;
+int Aplicatie::numarInstante = 0;
+
+map <Melodie, int> Aplicatie::creeazaMap()
+{
+    map <Melodie, int> toReturn;
+
+    for (int iUser = 0; iUser < this->UserList.size(); iUser++)
+    {
+        Artist* artistptr;
+        artistptr = dynamic_cast<Artist*> (this->UserList[iUser]);
+        if (artistptr)
+        {
+            for (int iAlbum = 0; iAlbum < artistptr->getNumarAlbume(); iAlbum++)
+            {
+                for (int iMelodie = 0; iMelodie < artistptr->getLungimeAlbum(iAlbum); iMelodie++)
+                {
+                    toReturn[artistptr->getMelodieAlbum(iMelodie, iAlbum)] = artistptr->getMelodieAlbum(iMelodie, iAlbum).getDurata();
                 }
             }
         }
-        bombs.clear();
+
     }
 
-    friend std::ostream& operator<<(std::ostream& os, const Game& game) {
-        os << (game.gameMap);
-        for (const auto& player : game.players) {
-            os << player << "\n";
-        }
-        for (const auto& bomb : game.bombs) {
-            os << bomb << "\n";
-        }
-        return os;
+    return toReturn;
+
+}
+
+void Aplicatie::ascultaMelodie(int indexUser)
+{
+    /*
+    map <Melodie, int> melodieDurata = creeazaMap();
+
+    int cnt = 1;
+
+    map <int, pair <Melodie, int>> mapMONSTRU;
+
+    if (melodieDurata.size() == 0)
+    {
+        throw 40;
     }
-};
 
-int main() {
-    Game game(Harta{("harta.txt")});
-    std::cout << "Initial game state:" << std::endl;
-    std::cout << game << std::endl;
+    for (const auto& [key, value] : melodieDurata)
+    {
+        mapMONSTRU[cnt] = make_pair(key, value);
+        cout << cnt++ << ". " << key << endl << "-----------------------" << endl;
+    }
 
-    std::cout << "Unde se afla Tom? (0<=y<=6 si 0<=x<=9)" << std::endl;
-    int y,x, nr_moves;
-    std::cout << "y = ";
-    std::cin >> y;
-    std::cout << "x = ";
-    std::cin>>x;
-    Player jucator1("Tom", y, x, game.getMap(), game.getBombs());
-    game.addPlayer(jucator1);
+    cout << endl << "Introdu indexul unei melodii din lista de mai sus!" << endl;
 
-    std::cout << "Unde se afla Jerry? (0<=y<=6 si 0<=x<=9)" << std::endl;
-    std::cout << "y = ";
-    std::cin >> y;
-    std::cout << "x = ";
-    std::cin>>x;
-    Player jucator2("Jerry", y, x, game.getMap(), game.getBombs());
-    game.addPlayer(jucator2);
-
-    std::cout << "Numarul de mutari: ";
-    std::cin >> nr_moves;
-
-    std::unordered_map <char, std::pair<int,int>> dx;
-    dx['A']={-1,0};
-    dx['S']={0,1};
-    dx['W']={0,-1};
-    dx['D']={1,0};
-    for (int i = 1; i <= nr_moves; i++) {
-        char lit;
-        std::cout << "Unde se misca Tom? (A, W, S, D): ";
-        std::cin >> lit;
-        game.getPlayer(0).move(dx[lit].first, dx[lit].second);
-        std::cout << "Harta dupa ce Tom s-a mutat" << std::endl;
-        std::cout << game << std::endl;
-
-        std::cout << "Plasezi bomba? (D, N) ";
-        std::cin >> lit;
-        if (lit == 'D')
+    try
+    {
+        string indexMelodieCitire;
+        cin >> indexMelodieCitire;
+        int indexMelodie;
+        if (indexMelodieCitire.size() != 1 || !checkNrInInterval(indexMelodieCitire[0], 1, melodieDurata.size()))
         {
-        game.getPlayer(0).placeBomb(1);
-        std::cout << "State after Tom placed another bomb:" << std::endl;
-        std::cout << game << std::endl;
+            throw exceptieOptiune;
         }
-
-        std::cout << "Unde se misca Jerry? (A, W, S, D): ";
-        std::cin >> lit;
-        game.getPlayer(1).move(dx[lit].first, dx[lit].second);
-        std::cout << "Harta dupa ce Jerry s-a mutat" << std::endl;
-        std::cout << game << std::endl;
-
-        std::cout << "Plasezi bomba? (D, N) ";
-        std::cin >> lit;
-        if (lit == 'D')
-        {
-        game.getPlayer(1).placeBomb(1);
-        std::cout << "State after Tom placed another bomb:" << std::endl;
-        std::cout << game << std::endl;
-        }
+        indexMelodie = int(indexMelodieCitire[0]) - 48;
+        system("CLS");
+        Ascultator* ptrlistener;
+        ptrlistener = dynamic_cast<Ascultator*> (this->UserList[indexUser]);
+        ptrlistener->setMinuteAscultate(ptrlistener->getMinuteAscultate() + (mapMONSTRU[indexMelodie].second / 60));
+        this->MelodiiAscultate.push_back(mapMONSTRU[indexMelodie].first);
+        this->MelodiiAscultateUnice.insert(mapMONSTRU[indexMelodie].first);
+        cout << "Speram ca melodia v-a placut!" << endl << endl;
     }
-    std::cout << "All bombs have exploded" << std::endl;
-    game.explodeAllBombs();
+    catch(exception& e)
+    {
+        cout << e.what() << endl << endl;
+    }
+    */
+}
+
+/// --------------------------------
+/// --------------------------------
+/// --------------------------------
+
+
+int main()
+{
+    Aplicatie* app= app->getInstanta();
+
+    app->startApp();
+
     return 0;
 }

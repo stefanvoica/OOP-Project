@@ -1095,7 +1095,7 @@ private:
 public:
 
     PremiumUser();
-    PremiumUser(const string& Email, const string& Parola, const string& DisplayName, int TipCont, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume, int NumarUrmariri, int MinuteAscultate, int Varsta, int ChartSpot);
+    PremiumUser(const string& Email, const string& Parola, const string& DisplayName, int TipCont, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album>& ListaAlbume, int NumarUrmariri, int MinuteAscultate, int Varsta, int ChartSpot);
     PremiumUser(const PremiumUser& auxiliar);
     PremiumUser& operator= (const PremiumUser& auxiliar);
 
@@ -1134,7 +1134,7 @@ PremiumUser::PremiumUser()
 
 }
 
-PremiumUser::PremiumUser(const string&  Email, const string&  Parola, const string&  DisplayName, int TipCont, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume,
+PremiumUser::PremiumUser(const string&  Email, const string&  Parola, const string&  DisplayName, int TipCont, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album>& ListaAlbume,
                          int NumarUrmariri, int MinuteAscultate, int Varsta, int ChartSpot):
     Utilizator(Email, Parola, DisplayName, TipCont),
     Artist(Email, Parola, DisplayName, TipCont, NumarUrmaritori, AscultatoriLunari, NumarAlbume, ListaAlbume),
@@ -2025,51 +2025,45 @@ map <Melodie, int> Aplicatie::creeazaMap()
 
 }
 
-void Aplicatie::ascultaMelodie(int indexUser)
-{
-    /*
+void Aplicatie::ascultaMelodie(int indexUser) {
     map <Melodie, int> melodieDurata = creeazaMap();
+    if (melodieDurata.empty()) {
+        cout << "Nu exista melodii disponibile pentru ascultat." << endl;
+        return;  // Dacă nu există melodii, ieșim din funcție.
+    }
 
     int cnt = 1;
+    map <int, pair <Melodie, int>> indexMelodieMap;
 
-    map <int, pair <Melodie, int>> mapMONSTRU;
-
-    if (melodieDurata.size() == 0)
-    {
-        throw 40;
+    for (const auto& [melodie, durata] : melodieDurata) {
+        indexMelodieMap[cnt] = {melodie, durata};
+        cout << cnt++ << ". " << melodie << " - Durata: " << durata << " secunde\n";
     }
 
-    for (const auto& [key, value] : melodieDurata)
-    {
-        mapMONSTRU[cnt] = make_pair(key, value);
-        cout << cnt++ << ". " << key << endl << "-----------------------" << endl;
+    cout << "\nAlege numarul melodiei pe care vrei sa o asculti: ";
+    int indexMelodie;
+    cin >> indexMelodie;  // Presupunem că utilizatorul introduce un număr valid.
+
+    if (indexMelodie < 1 || indexMelodie > indexMelodieMap.size()) {
+        cout << "Optiune invalida!" << endl;
+        return;  // Verificăm dacă opțiunea este validă.
     }
 
-    cout << endl << "Introdu indexul unei melodii din lista de mai sus!" << endl;
+    Ascultator* ascultator = dynamic_cast<Ascultator*>(this->UserList[indexUser]);
+    if (!ascultator) {
+        cout << "Utilizatorul ales nu poate asculta melodii." << endl;
+        return;  // Verificăm dacă utilizatorul este Ascultator.
+    }
 
-    try
-    {
-        string indexMelodieCitire;
-        cin >> indexMelodieCitire;
-        int indexMelodie;
-        if (indexMelodieCitire.size() != 1 || !checkNrInInterval(indexMelodieCitire[0], 1, melodieDurata.size()))
-        {
-            throw exceptieOptiune;
-        }
-        indexMelodie = int(indexMelodieCitire[0]) - 48;
-        system("CLS");
-        Ascultator* ptrlistener;
-        ptrlistener = dynamic_cast<Ascultator*> (this->UserList[indexUser]);
-        ptrlistener->setMinuteAscultate(ptrlistener->getMinuteAscultate() + (mapMONSTRU[indexMelodie].second / 60));
-        this->MelodiiAscultate.push_back(mapMONSTRU[indexMelodie].first);
-        this->MelodiiAscultateUnice.insert(mapMONSTRU[indexMelodie].first);
-        cout << "Speram ca melodia v-a placut!" << endl << endl;
-    }
-    catch(exception& e)
-    {
-        cout << e.what() << endl << endl;
-    }
-    */
+    // Actualizăm minutele ascultate.
+    int durata = indexMelodieMap[indexMelodie].second;
+    ascultator->setMinuteAscultate(ascultator->getMinuteAscultate() + durata / 60);
+
+    // Adăugăm melodia la listele de melodii ascultate.
+    this->MelodiiAscultate.push_back(indexMelodieMap[indexMelodie].first);
+    this->MelodiiAscultateUnice.insert(indexMelodieMap[indexMelodie].first);
+
+    cout << "Speram ca melodia '" << indexMelodieMap[indexMelodie].first << "' v-a placut!\n";
 }
 
 

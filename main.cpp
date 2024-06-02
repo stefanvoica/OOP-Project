@@ -261,7 +261,7 @@ void Melodie::citire(istream& in){
     cout << "Introduceti durata (in secunde): ";
     string auxDurata;
     in >> auxDurata;
-    for (int i = 0; i < auxDurata.size(); i++)
+    for (size_t i = 0; i < auxDurata.size(); i++)
     {
         if (!isdigit(auxDurata[i]))
         {
@@ -276,7 +276,7 @@ void Melodie::citire(istream& in){
 
     this->Durata = 0;
 
-    for (int i = 0; i < auxDurata.size(); i++)
+    for (size_t i = 0; i < auxDurata.size(); i++)
     {
         this->Durata = this->Durata * 10 + int(auxDurata[i] - 48);
     }
@@ -447,7 +447,7 @@ void Album::citire(istream& in) {
     cout << "Introduceti numar melodii: ";
     string auxiliar;
     in >> auxiliar;
-    for (int i = 0; i < auxiliar.size(); i++)
+    for (size_t i = 0; i < auxiliar.size(); i++)
     {
         if (!isdigit(auxiliar[i]))
         {
@@ -462,7 +462,7 @@ void Album::citire(istream& in) {
 
     this->NumarMelodii = 0;
 
-    for (int i = 0; i < auxiliar.size(); i++)
+    for (size_t i = 0; i < auxiliar.size(); i++)
     {
         this->NumarMelodii = this->NumarMelodii * 10 + int(auxiliar[i] - 48);
     }
@@ -664,7 +664,7 @@ void Artist::citire(istream& in) {
     string auxUrmaritori;
     in >> auxUrmaritori;
 
-    for (int i = 0; i < auxUrmaritori.size(); i++)
+    for (size_t i = 0; i < auxUrmaritori.size(); i++)
     {
         if (!isdigit(auxUrmaritori[i]))
         {
@@ -673,7 +673,7 @@ void Artist::citire(istream& in) {
     }
 
     this->NumarUrmaritori = 0;
-    for (int i = 0; i < auxUrmaritori.size(); i++)
+    for (size_t i = 0; i < auxUrmaritori.size(); i++)
     {
         this->NumarUrmaritori = this->NumarUrmaritori * 10 + int(auxUrmaritori[i] - 48);
     }
@@ -682,7 +682,7 @@ void Artist::citire(istream& in) {
     string auxAscultatori;
     in >> auxAscultatori;
 
-    for (int i = 0; i < auxAscultatori.size(); i++)
+    for (size_t i = 0; i < auxAscultatori.size(); i++)
     {
         if (!isdigit(auxAscultatori[i]))
         {
@@ -691,7 +691,7 @@ void Artist::citire(istream& in) {
     }
 
     this->AscultatoriLunari = 0;
-    for (int i = 0; i < auxAscultatori.size(); i++)
+    for (size_t i = 0; i < auxAscultatori.size(); i++)
     {
         this->AscultatoriLunari = this->AscultatoriLunari * 10 + int(auxAscultatori[i] - 48);
     }
@@ -702,7 +702,7 @@ void Artist::citire(istream& in) {
     string auxNrAlbume;
     in >> auxNrAlbume;
 
-    for (int i = 0; i < auxNrAlbume.size(); i++)
+    for (size_t i = 0; i < auxNrAlbume.size(); i++)
     {
         if (!isdigit(auxNrAlbume[i]))
         {
@@ -711,7 +711,7 @@ void Artist::citire(istream& in) {
     }
 
     this->NumarAlbume = 0;
-    for (int i = 0; i < auxNrAlbume.size(); i++)
+    for (size_t i = 0; i < auxNrAlbume.size(); i++)
     {
         this->NumarAlbume = this->NumarAlbume * 10 + int(auxNrAlbume[i] - 48);
     }
@@ -883,7 +883,7 @@ void Ascultator::citire(istream& in) {
     string auxUrmariri;
     in >> auxUrmariri;
 
-    for (int i = 0; i < auxUrmariri.size(); i++)
+    for (size_t i = 0; i < auxUrmariri.size(); i++)
     {
         if (!isdigit(auxUrmariri[i]))
         {
@@ -891,7 +891,7 @@ void Ascultator::citire(istream& in) {
         }
     }
     this->NumarUrmariri = 0;
-    for (int i = 0; i < auxUrmariri.size(); i++)
+    for (size_t i = 0; i < auxUrmariri.size(); i++)
     {
         this->NumarUrmariri = this->NumarUrmariri * 10 + int(auxUrmariri[i] - 48);
     }
@@ -899,7 +899,7 @@ void Ascultator::citire(istream& in) {
     cout << "Introduceti numar minute ascultate: ";
     string auxMinAscultate;
     in >> auxMinAscultate;
-    for (int i = 0; i < auxMinAscultate.size(); i++)
+    for (size_t i = 0; i < auxMinAscultate.size(); i++)
     {
         if (!isdigit(auxMinAscultate[i]))
         {
@@ -907,7 +907,7 @@ void Ascultator::citire(istream& in) {
         }
     }
     this->MinuteAscultate = 0;
-    for (int i = 0; i < auxMinAscultate.size(); i++)
+    for (size_t i = 0; i < auxMinAscultate.size(); i++)
     {
         this->MinuteAscultate = this->MinuteAscultate * 10 + int(auxMinAscultate[i] - 48);
     }
@@ -915,7 +915,7 @@ void Ascultator::citire(istream& in) {
     cout << "Introduceti varsta: ";
     string auxVarsta;
     in >> auxVarsta;
-    for (int i = 0; i < auxVarsta.size(); i++)
+    for (size_t i = 0; i < auxVarsta.size(); i++)
     {
         if (!isdigit(auxVarsta[i]))
         {
@@ -923,7 +923,7 @@ void Ascultator::citire(istream& in) {
         }
     }
     this->Varsta = 0;
-    for (int i = 0; i < auxVarsta.size(); i++)
+    for (size_t i = 0; i < auxVarsta.size(); i++)
     {
         this->Varsta = this->Varsta * 10 + int(auxVarsta[i] - 48);
     }
@@ -1054,7 +1054,7 @@ void PremiumUser::citire(istream& in) {
     string auxUrmariri;
     in >> auxUrmariri;
 
-    for (int i = 0; i < auxUrmariri.size(); i++)
+    for (size_t i = 0; i < auxUrmariri.size(); i++)
     {
         if (!isdigit(auxUrmariri[i]))
         {
@@ -1062,7 +1062,7 @@ void PremiumUser::citire(istream& in) {
         }
     }
     this->NumarUrmariri = 0;
-    for (int i = 0; i < auxUrmariri.size(); i++)
+    for (size_t i = 0; i < auxUrmariri.size(); i++)
     {
         this->NumarUrmariri = this->NumarUrmariri * 10 + int(auxUrmariri[i] - 48);
     }
@@ -1070,7 +1070,7 @@ void PremiumUser::citire(istream& in) {
     cout << "Introduceti numar minute ascultate: ";
     string auxMinAscultate;
     in >> auxMinAscultate;
-    for (int i = 0; i < auxMinAscultate.size(); i++)
+    for (size_t i = 0; i < auxMinAscultate.size(); i++)
     {
         if (!isdigit(auxMinAscultate[i]))
         {
@@ -1078,7 +1078,7 @@ void PremiumUser::citire(istream& in) {
         }
     }
     this->MinuteAscultate = 0;
-    for (int i = 0; i < auxMinAscultate.size(); i++)
+    for (size_t i = 0; i < auxMinAscultate.size(); i++)
     {
         this->MinuteAscultate = this->MinuteAscultate * 10 + int(auxMinAscultate[i] - 48);
     }
@@ -1086,7 +1086,7 @@ void PremiumUser::citire(istream& in) {
     cout << "Introduceti varsta: ";
     string auxVarsta;
     in >> auxVarsta;
-    for (int i = 0; i < auxVarsta.size(); i++)
+    for (size_t i = 0; i < auxVarsta.size(); i++)
     {
         if (!isdigit(auxVarsta[i]))
         {
@@ -1094,7 +1094,7 @@ void PremiumUser::citire(istream& in) {
         }
     }
     this->Varsta = 0;
-    for (int i = 0; i < auxVarsta.size(); i++)
+    for (size_t i = 0; i < auxVarsta.size(); i++)
     {
         this->Varsta = this->Varsta * 10 + int(auxVarsta[i] - 48);
     }
@@ -1102,7 +1102,7 @@ void PremiumUser::citire(istream& in) {
     cout << "Introduceti loc clasament: ";
     string auxSpot;
     in >> auxSpot;
-    for (int i = 0; i < auxSpot.size(); i++)
+    for (size_t i = 0; i < auxSpot.size(); i++)
     {
         if (!isdigit(auxSpot[i]))
         {
@@ -1110,7 +1110,7 @@ void PremiumUser::citire(istream& in) {
         }
     }
     this->ChartSpot = 0;
-    for (int i = 0; i < auxSpot.size(); i++)
+    for (size_t i = 0; i < auxSpot.size(); i++)
     {
         this->ChartSpot = this->ChartSpot * 10 + int(auxSpot[i] - 48);
     }
@@ -1197,7 +1197,7 @@ public:
 
 bool checkNrInList(char nr, string v)
 {
-    for (int i = 0; i < v.size(); i++)
+    for (size_t i = 0; i < v.size(); i++)
     {
         if (v[i] == nr)
         {
@@ -1646,7 +1646,7 @@ public:
         numarInstante--;
         if (numarInstante == 0)
         {
-            for (int i = 0; i < UserList.size(); i++)
+            for (size_t i = 0; i < UserList.size(); i++)
             {
                 delete UserList[i];
             }
@@ -1680,7 +1680,7 @@ void Aplicatie::addUser()
 
 void Aplicatie::printUserList() {
 
-    for (int i = 0; i < UserList.size(); i++)
+    for (size_t i = 0; i < UserList.size(); i++)
     {
         cout << endl << "Utilizator " << i+1 << ": " << endl << endl;
         cout << *(this->UserList[i]) << endl << "----------------------" << endl;
@@ -1739,7 +1739,7 @@ void Aplicatie::writeData() {
     ofstream fout;
     fout.open("dateUtilizatori.txt");
     fout << this->UserList.size() << endl;
-    for (int i = 0; i < this->UserList.size(); i++)
+    for (size_t i = 0; i < this->UserList.size(); i++)
     {
         fout << *(this->UserList[i]);
     }
@@ -1816,7 +1816,7 @@ map <Melodie, int> Aplicatie::creeazaMap()
 {
     map <Melodie, int> toReturn;
 
-    for (int iUser = 0; iUser < this->UserList.size(); iUser++)
+    for (size_t iUser = 0; iUser < this->UserList.size(); iUser++)
     {
         Artist* artistptr;
         artistptr = dynamic_cast<Artist*> (this->UserList[iUser]);

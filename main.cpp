@@ -7,7 +7,8 @@
 #include <map>
 using namespace std;
 
-class IOInterface{
+class IOInterface
+{
 public:
 
     virtual void afisare(ostream& out) const = 0;
@@ -22,15 +23,14 @@ public:
 /// --------------------------------
 /// --------------------------------
 
-class Utilizator : public IOInterface {
+class Utilizator : public IOInterface
+{
 protected:
-
     string Email;
     string DisplayName;
     string Parola;
 
 public:
-
     Utilizator();
     Utilizator(string Email, string Parola, string DisplayName);
     Utilizator(const Utilizator& user);
@@ -49,13 +49,31 @@ public:
     virtual void afisare(ofstream& out) const;
     virtual void citire(ifstream& in);
 
-    string getDisplayName() const {return this->DisplayName;}
-    string getEmail() const {return this->Email;}
-    string getParola() const {return this->Parola;}
+    string getDisplayName() const
+    {
+        return this->DisplayName;
+    }
+    string getEmail() const
+    {
+        return this->Email;
+    }
+    string getParola() const
+    {
+        return this->Parola;
+    }
 
-    void setDisplayName(string DisplayName) {this->DisplayName = DisplayName;}
-    void setEmail(string Email) {this->Email = Email;}
-    void setParola(string Parola) {this->Parola = Parola;}
+    void setDisplayName(string DisplayName)
+    {
+        this->DisplayName = DisplayName;
+    }
+    void setEmail(string Email)
+    {
+        this->Email = Email;
+    }
+    void setParola(string Parola)
+    {
+        this->Parola = Parola;
+    }
 
     virtual int getMinuteAscultate() const = 0;
     virtual int pretAbonamentLunar() = 0;
@@ -68,7 +86,8 @@ public:
 
 };
 
-Utilizator::Utilizator(){
+Utilizator::Utilizator()
+{
 
     this->Email = "ANONIM";
     this->DisplayName = "ANONIM";
@@ -76,7 +95,8 @@ Utilizator::Utilizator(){
 
 }
 
-Utilizator::Utilizator(string Email, string Parola, string DisplayName){
+Utilizator::Utilizator(string Email, string Parola, string DisplayName)
+{
 
     this->Email = Email;
     this->Parola = Parola;
@@ -84,7 +104,8 @@ Utilizator::Utilizator(string Email, string Parola, string DisplayName){
 
 }
 
-Utilizator::Utilizator(const Utilizator& user){
+Utilizator::Utilizator(const Utilizator& user)
+{
 
     this->Email = user.Email;
     this->Parola = user.Parola;
@@ -92,7 +113,8 @@ Utilizator::Utilizator(const Utilizator& user){
 
 }
 
-Utilizator& Utilizator::operator= (const Utilizator& user){
+Utilizator& Utilizator::operator= (const Utilizator& user)
+{
 
     if (this != &user)
     {
@@ -105,14 +127,16 @@ Utilizator& Utilizator::operator= (const Utilizator& user){
 
 }
 
-void Utilizator::afisare(ostream& out) const {
+void Utilizator::afisare(ostream& out) const
+{
 
     out << "Email: " << this->Email << endl;
     out << "Parola: " << this->Parola << endl;
     out << "Nume utilizator: " << this->DisplayName << endl;
 }
 
-void Utilizator::citire(istream& in){
+void Utilizator::citire(istream& in)
+{
     cout << "Introduceti Email: ";
     in >> this->Email;
     cout << "Introduceti Parola: ";
@@ -121,7 +145,8 @@ void Utilizator::citire(istream& in){
     in >> this->DisplayName;
 }
 
-ostream& operator<< (ostream& out, const Utilizator& user){
+ostream& operator<< (ostream& out, const Utilizator& user)
+{
 
     user.afisare(out);
 
@@ -129,7 +154,8 @@ ostream& operator<< (ostream& out, const Utilizator& user){
 
 }
 
-istream& operator>> (istream& in, Utilizator& user){
+istream& operator>> (istream& in, Utilizator& user)
+{
 
     user.citire(in);
 
@@ -137,7 +163,8 @@ istream& operator>> (istream& in, Utilizator& user){
 
 }
 
-ofstream& operator<< (ofstream& out, const Utilizator& user) {
+ofstream& operator<< (ofstream& out, const Utilizator& user)
+{
 
     user.afisare(out);
 
@@ -145,14 +172,16 @@ ofstream& operator<< (ofstream& out, const Utilizator& user) {
 
 }
 
-ifstream& operator>> (ifstream& in, Utilizator& user) {
+ifstream& operator>> (ifstream& in, Utilizator& user)
+{
 
     user.citire(in);
 
     return in;
 }
 
-void Utilizator::afisare(ofstream& out) const {
+void Utilizator::afisare(ofstream& out) const
+{
 
     out << this->Email << endl;
     out << this->DisplayName << endl;
@@ -160,7 +189,8 @@ void Utilizator::afisare(ofstream& out) const {
 
 }
 
-void Utilizator::citire(ifstream& in) {
+void Utilizator::citire(ifstream& in)
+{
 
     in >> this->Email;
     in >> this->DisplayName;
@@ -172,7 +202,8 @@ void Utilizator::citire(ifstream& in) {
 /// --------------------------------
 /// --------------------------------
 
-class Melodie : public IOInterface{
+class Melodie : public IOInterface
+{
 private:
 
     string Nume;
@@ -200,14 +231,21 @@ public:
     void afisare(ofstream& out) const;
     void citire(ifstream& in);
 
-    int getDurata() const {return this->Durata;}
-    void setDurata(int Durata) {this->Durata = Durata;}
+    int getDurata() const
+    {
+        return this->Durata;
+    }
+    void setDurata(int Durata)
+    {
+        this->Durata = Durata;
+    }
 
     bool operator< (const Melodie&) const;
 
 };
 
-Melodie::Melodie(){
+Melodie::Melodie()
+{
 
     this->Nume = "ANONIM";
     this->Durata = 0;
@@ -215,7 +253,8 @@ Melodie::Melodie(){
     this->Explicit = 0;
 }
 
-Melodie::Melodie(string Nume, int Durata, string Gen, bool Explicit){
+Melodie::Melodie(string Nume, int Durata, string Gen, bool Explicit)
+{
 
     this->Nume = Nume;
     this->Durata = Durata;
@@ -223,7 +262,8 @@ Melodie::Melodie(string Nume, int Durata, string Gen, bool Explicit){
     this->Explicit = Explicit;
 }
 
-Melodie::Melodie(const Melodie& copie){
+Melodie::Melodie(const Melodie& copie)
+{
 
     this->Nume = copie.Nume;
     this->Durata = copie.Durata;
@@ -231,7 +271,8 @@ Melodie::Melodie(const Melodie& copie){
     this->Explicit = copie.Explicit;
 }
 
-Melodie& Melodie::operator= (const Melodie& copie){
+Melodie& Melodie::operator= (const Melodie& copie)
+{
 
     if (this != &copie)
     {
@@ -244,7 +285,8 @@ Melodie& Melodie::operator= (const Melodie& copie){
     return *this;
 }
 
-void Melodie::afisare(ostream& out) const {
+void Melodie::afisare(ostream& out) const
+{
 
     out << "Nume: " << this->Nume << endl;
     out << "Durata: " << this->Durata / 60 << ":";
@@ -254,7 +296,8 @@ void Melodie::afisare(ostream& out) const {
 
 }
 
-void Melodie::citire(istream& in){
+void Melodie::citire(istream& in)
+{
 
     cout << "Introduceti nume: ";
     in >> this->Nume;
@@ -294,14 +337,16 @@ void Melodie::citire(istream& in){
 
 }
 
-ostream& operator<< (ostream& out, const Melodie& song){
+ostream& operator<< (ostream& out, const Melodie& song)
+{
 
     song.afisare(out);
 
     return out;
 }
 
-istream& operator>> (istream& in, Melodie& song){
+istream& operator>> (istream& in, Melodie& song)
+{
 
     song.citire(in);
 
@@ -309,7 +354,8 @@ istream& operator>> (istream& in, Melodie& song){
 
 }
 
-ofstream& operator<< (ofstream& out, const Melodie& song) {
+ofstream& operator<< (ofstream& out, const Melodie& song)
+{
 
     song.afisare(out);
 
@@ -317,7 +363,8 @@ ofstream& operator<< (ofstream& out, const Melodie& song) {
 
 }
 
-ifstream& operator>> (ifstream& in, Melodie& song) {
+ifstream& operator>> (ifstream& in, Melodie& song)
+{
 
     song.citire(in);
 
@@ -325,7 +372,8 @@ ifstream& operator>> (ifstream& in, Melodie& song) {
 
 }
 
-void Melodie::afisare(ofstream& out) const {
+void Melodie::afisare(ofstream& out) const
+{
 
     out << this->Nume << endl;
     out << this->Durata << endl;
@@ -334,7 +382,8 @@ void Melodie::afisare(ofstream& out) const {
 
 }
 
-void Melodie::citire(ifstream& in) {
+void Melodie::citire(ifstream& in)
+{
 
     in >> this->Nume;
     in >> this->Durata;
@@ -352,7 +401,8 @@ bool Melodie::operator< (const Melodie& aux) const
 /// --------------------------------
 /// --------------------------------
 
-class Album : public IOInterface {
+class Album : public IOInterface
+{
 private:
 
     string Nume;
@@ -379,21 +429,32 @@ public:
     void afisare(ofstream& out) const;
     void citire(ifstream& in);
 
-    int getNumarMelodii() const {return this->NumarMelodii;};
-    Melodie getMelodie(int i) const {return this->ListaMelodii[i];}
-    string getNumeAlbum() const {return this->Nume;}
+    int getNumarMelodii() const
+    {
+        return this->NumarMelodii;
+    };
+    Melodie getMelodie(int i) const
+    {
+        return this->ListaMelodii[i];
+    }
+    string getNumeAlbum() const
+    {
+        return this->Nume;
+    }
 
     void addMelodie();
 
 };
 
-Album::Album(){
+Album::Album()
+{
 
     this->Nume = "ANONIM";
     this->NumarMelodii = 0;
 }
 
-Album::Album(string Nume, int NumarMelodii, vector <Melodie> ListaMelodii) {
+Album::Album(string Nume, int NumarMelodii, vector <Melodie> ListaMelodii)
+{
 
     this->Nume = Nume;
     this->NumarMelodii = NumarMelodii;
@@ -403,7 +464,8 @@ Album::Album(string Nume, int NumarMelodii, vector <Melodie> ListaMelodii) {
     }
 }
 
-Album::Album(const Album& album){
+Album::Album(const Album& album)
+{
 
     this->Nume = album.Nume;
     this->NumarMelodii = album.NumarMelodii;
@@ -411,7 +473,8 @@ Album::Album(const Album& album){
 
 }
 
-Album& Album::operator= (const Album& album){
+Album& Album::operator= (const Album& album)
+{
 
     if (this != &album)
     {
@@ -427,7 +490,8 @@ Album& Album::operator= (const Album& album){
     return *this;
 }
 
-void Album::afisare(ostream& out) const {
+void Album::afisare(ostream& out) const
+{
 
     out << "Nume album: " << this->Nume << endl;
     out << "Lista celor " << this->NumarMelodii << " melodii:";
@@ -440,7 +504,8 @@ void Album::afisare(ostream& out) const {
 
 }
 
-void Album::citire(istream& in) {
+void Album::citire(istream& in)
+{
 
     cout << "Introduceti nume album: ";
     in >> this->Nume;
@@ -478,7 +543,8 @@ void Album::citire(istream& in) {
 }
 
 
-ostream& operator<< (ostream& out, const Album& album){
+ostream& operator<< (ostream& out, const Album& album)
+{
 
     album.afisare(out);
 
@@ -486,7 +552,8 @@ ostream& operator<< (ostream& out, const Album& album){
 
 }
 
-istream& operator>> (istream& in, Album& album){
+istream& operator>> (istream& in, Album& album)
+{
 
     album.citire(in);
 
@@ -494,7 +561,8 @@ istream& operator>> (istream& in, Album& album){
 
 }
 
-ofstream& operator<<(ofstream& out, const Album& album){
+ofstream& operator<<(ofstream& out, const Album& album)
+{
 
     album.afisare(out);
 
@@ -502,7 +570,8 @@ ofstream& operator<<(ofstream& out, const Album& album){
 
 }
 
-ifstream& operator>>(ifstream& in, Album& album) {
+ifstream& operator>>(ifstream& in, Album& album)
+{
 
     album.citire(in);
 
@@ -510,7 +579,8 @@ ifstream& operator>>(ifstream& in, Album& album) {
 
 }
 
-void Album::afisare(ofstream& out) const {
+void Album::afisare(ofstream& out) const
+{
 
     out << this->Nume << endl;
     out << this->NumarMelodii << endl;
@@ -521,7 +591,8 @@ void Album::afisare(ofstream& out) const {
 
 }
 
-void Album::citire(ifstream& in) {
+void Album::citire(ifstream& in)
+{
 
     in >> this->Nume;
     in >> this->NumarMelodii;
@@ -535,7 +606,8 @@ void Album::citire(ifstream& in) {
 
 }
 
-void Album::addMelodie() {
+void Album::addMelodie()
+{
 
     Melodie Aux;
     cin >> Aux;
@@ -548,20 +620,19 @@ void Album::addMelodie() {
 /// --------------------------------
 /// --------------------------------
 
-class Artist : virtual public Utilizator {
+class Artist : virtual public Utilizator
+{
 protected:
 
     int NumarUrmaritori;
     int AscultatoriLunari;
     int NumarAlbume;
     vector <Album> ListaAlbume;
-    const int TipCont = 2;
-
 public:
 
     Artist();
     Artist(string Email, string Parola, string DisplayName,
-    int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume);
+           int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume);
     Artist(const Artist& artist);
     Artist& operator= (const Artist& artist);
 
@@ -573,16 +644,37 @@ public:
 
     void addAlbum();
 
-    int getTipCont() const {return this->TipCont;}
+    int getTipCont() const
+    {
+        return this->TipCont;
+    }
 
     int pretAbonamentLunar();
     int salariuLunar();
-    int getMinuteAscultate() const {return -1;}
-    int getChartSpot() const {return -1;}
-    int getLungimeAlbum(int i) const {return this->ListaAlbume[i].getNumarMelodii();}
-    int getNumarAlbume() const {return this->NumarAlbume;}
-    string getNumeAlbum(int i) const {return this->ListaAlbume[i].getNumeAlbum();}
-    Melodie getMelodieAlbum(int iMel, int iAlb) {return this->ListaAlbume[iAlb].getMelodie(iMel);}
+    int getMinuteAscultate() const
+    {
+        return -1;
+    }
+    int getChartSpot() const
+    {
+        return -1;
+    }
+    int getLungimeAlbum(int i) const
+    {
+        return this->ListaAlbume[i].getNumarMelodii();
+    }
+    int getNumarAlbume() const
+    {
+        return this->NumarAlbume;
+    }
+    string getNumeAlbum(int i) const
+    {
+        return this->ListaAlbume[i].getNumeAlbum();
+    }
+    Melodie getMelodieAlbum(int iMel, int iAlb)
+    {
+        return this->ListaAlbume[iAlb].getMelodie(iMel);
+    }
 
     void deleteAlbum(int nrAlbum);
 
@@ -593,7 +685,8 @@ public:
 
 };
 
-Artist::Artist(){
+Artist::Artist()
+{
 
     this->NumarUrmaritori = 0;
     this->AscultatoriLunari = 0;
@@ -601,7 +694,8 @@ Artist::Artist(){
 }
 
 Artist::Artist(string Email, string Parola, string DisplayName, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume):
-    Utilizator(Email, Parola, DisplayName) {
+    Utilizator(Email, Parola, DisplayName)
+{
 
     this->NumarUrmaritori = NumarUrmaritori;
     this->AscultatoriLunari = AscultatoriLunari;
@@ -609,21 +703,23 @@ Artist::Artist(string Email, string Parola, string DisplayName, int NumarUrmarit
     this->ListaAlbume = ListaAlbume;
 }
 
-Artist::Artist(const Artist& artist){
+Artist::Artist(const Artist& artist)
+{
 
     Utilizator::operator=(artist);
-        this->NumarUrmaritori = artist.NumarUrmaritori;
-        this->AscultatoriLunari = artist.AscultatoriLunari;
-        this->NumarAlbume = artist.NumarAlbume;
-        this->ListaAlbume.clear();
-        for (int i = 0; i < artist.NumarAlbume; i++)
-        {
-            ListaAlbume.push_back(artist.ListaAlbume[i]);
-        }
+    this->NumarUrmaritori = artist.NumarUrmaritori;
+    this->AscultatoriLunari = artist.AscultatoriLunari;
+    this->NumarAlbume = artist.NumarAlbume;
+    this->ListaAlbume.clear();
+    for (int i = 0; i < artist.NumarAlbume; i++)
+    {
+        ListaAlbume.push_back(artist.ListaAlbume[i]);
+    }
 
 }
 
-Artist& Artist::operator= (const Artist& artist) {
+Artist& Artist::operator= (const Artist& artist)
+{
 
     if (this != &artist)
     {
@@ -642,7 +738,8 @@ Artist& Artist::operator= (const Artist& artist) {
 
 }
 
-void Artist::afisare(ostream& out) const {
+void Artist::afisare(ostream& out) const
+{
 
     Utilizator::afisare(out);
     out << "Numar urmaritori: " << this->NumarUrmaritori << endl;
@@ -657,7 +754,8 @@ void Artist::afisare(ostream& out) const {
 
 }
 
-void Artist::citire(istream& in) {
+void Artist::citire(istream& in)
+{
 
     Utilizator::citire(in);
     cout << "Introduceti numar urmaritori: ";
@@ -727,7 +825,8 @@ void Artist::citire(istream& in) {
 
 }
 
-void Artist::afisare(ofstream& out) const {
+void Artist::afisare(ofstream& out) const
+{
 
     out << this->TipCont << endl;
     Utilizator::afisare(out);
@@ -741,7 +840,8 @@ void Artist::afisare(ofstream& out) const {
 
 }
 
-void Artist::citire(ifstream& in) {
+void Artist::citire(ifstream& in)
+{
 
     Utilizator::citire(in);
     in >> this->NumarUrmaritori;
@@ -757,7 +857,8 @@ void Artist::citire(ifstream& in) {
 
 }
 
-void Artist::addAlbum() {
+void Artist::addAlbum()
+{
 
     Album album;
     cin >> album;
@@ -766,19 +867,22 @@ void Artist::addAlbum() {
 
 }
 
-int Artist::pretAbonamentLunar(){
+int Artist::pretAbonamentLunar()
+{
 
     return 10 * this->NumarAlbume + 40;
 
 }
 
-int Artist::salariuLunar() {
+int Artist::salariuLunar()
+{
 
     return this->AscultatoriLunari / 40;
 
 }
 
-void Artist::deleteAlbum(int cntAlbum) {
+void Artist::deleteAlbum(int cntAlbum)
+{
 
     ListaAlbume.erase(ListaAlbume.begin() + cntAlbum);
     NumarAlbume--;
@@ -789,14 +893,13 @@ void Artist::deleteAlbum(int cntAlbum) {
 /// --------------------------------
 /// --------------------------------
 
-class Ascultator : virtual public Utilizator {
+class Ascultator : virtual public Utilizator
+{
 protected:
 
     int NumarUrmariri;
     int MinuteAscultate;
     int Varsta;
-    const int TipCont = 1;
-
 public:
 
     Ascultator();
@@ -814,20 +917,36 @@ public:
     int pretAbonamentLunar();
     int salariuLunar();
 
-    int getTipCont() const {return this->TipCont;}
-    int getMinuteAscultate() const {return this->MinuteAscultate;}
+    int getTipCont() const
+    {
+        return this->TipCont;
+    }
+    int getMinuteAscultate() const
+    {
+        return this->MinuteAscultate;
+    }
 
     void addAlbum() {};
-    int getChartSpot() const {return -1;}
+    int getChartSpot() const
+    {
+        return -1;
+    }
 
     virtual ~Ascultator() {}
 
-    int getMinuteAscultate() {return this->MinuteAscultate;}
-    void setMinuteAscultate(int MinuteAscultate) {this->MinuteAscultate = MinuteAscultate;}
+    int getMinuteAscultate()
+    {
+        return this->MinuteAscultate;
+    }
+    void setMinuteAscultate(int MinuteAscultate)
+    {
+        this->MinuteAscultate = MinuteAscultate;
+    }
 
 };
 
-Ascultator::Ascultator(): Utilizator() {
+Ascultator::Ascultator(): Utilizator()
+{
 
     this->NumarUrmariri = 0;
     this->MinuteAscultate = 0;
@@ -836,7 +955,8 @@ Ascultator::Ascultator(): Utilizator() {
 }
 
 Ascultator::Ascultator(string Email, string Parola, string DisplayName, int NumarUrmariri, int MinuteAscultate, int Varsta):
-    Utilizator(Email, Parola, DisplayName) {
+    Utilizator(Email, Parola, DisplayName)
+{
 
     this->NumarUrmariri = NumarUrmariri;
     this->MinuteAscultate = MinuteAscultate;
@@ -844,7 +964,8 @@ Ascultator::Ascultator(string Email, string Parola, string DisplayName, int Numa
 
 }
 
-Ascultator::Ascultator(const Ascultator& listener):Utilizator(listener) {
+Ascultator::Ascultator(const Ascultator& listener):Utilizator(listener)
+{
 
     this->NumarUrmariri = listener.NumarUrmariri;
     this->MinuteAscultate = listener.MinuteAscultate;
@@ -852,7 +973,8 @@ Ascultator::Ascultator(const Ascultator& listener):Utilizator(listener) {
 
 }
 
-Ascultator& Ascultator::operator=(const Ascultator& listener) {
+Ascultator& Ascultator::operator=(const Ascultator& listener)
+{
 
     if (this != &listener)
     {
@@ -867,7 +989,8 @@ Ascultator& Ascultator::operator=(const Ascultator& listener) {
 
 }
 
-void Ascultator::afisare(ostream& out) const {
+void Ascultator::afisare(ostream& out) const
+{
 
     Utilizator::afisare(out);
     out << "Numar urmariri: " << this->NumarUrmariri << endl;
@@ -876,7 +999,8 @@ void Ascultator::afisare(ostream& out) const {
 
 }
 
-void Ascultator::citire(istream& in) {
+void Ascultator::citire(istream& in)
+{
 
     Utilizator::citire(in);
     cout << "Introduceti numar urmariri: ";
@@ -929,7 +1053,8 @@ void Ascultator::citire(istream& in) {
     }
 }
 
-void Ascultator::afisare(ofstream& out) const {
+void Ascultator::afisare(ofstream& out) const
+{
 
     out << this->TipCont << endl;
     Utilizator::afisare(out);
@@ -939,7 +1064,8 @@ void Ascultator::afisare(ofstream& out) const {
 
 }
 
-void Ascultator::citire(ifstream& in) {
+void Ascultator::citire(ifstream& in)
+{
 
     Utilizator::citire(in);
     in >> this->NumarUrmariri;
@@ -948,13 +1074,15 @@ void Ascultator::citire(ifstream& in) {
 
 }
 
-int Ascultator::pretAbonamentLunar() {
+int Ascultator::pretAbonamentLunar()
+{
 
     return 20;
 
 }
 
-int Ascultator::salariuLunar() {
+int Ascultator::salariuLunar()
+{
 
     return -1;
 
@@ -966,12 +1094,10 @@ int Ascultator::salariuLunar() {
 /// --------------------------------
 /// --------------------------------
 
-class PremiumUser: public Artist, public Ascultator {
+class PremiumUser: public Artist, public Ascultator
+{
 private:
-
     int ChartSpot;
-    const int TipCont = 3;
-
 public:
 
     PremiumUser();
@@ -985,12 +1111,21 @@ public:
     void afisare(ofstream& out) const;
     void citire(ifstream& in);
 
-    int getTipCont() const {return this->TipCont;}
+    int getTipCont() const
+    {
+        return this->TipCont;
+    }
 
     int pretAbonamentLunar();
     int salariuLunar();
-    int getMinuteAscultate() const {return this->MinuteAscultate;}
-    int getChartSpot() const {return this->ChartSpot;}
+    int getMinuteAscultate() const
+    {
+        return this->MinuteAscultate;
+    }
+    int getChartSpot() const
+    {
+        return this->ChartSpot;
+    }
 
     void addAlbum();
 
@@ -1000,29 +1135,33 @@ public:
 
 /// se apeleaza baza si apoi parinti in ordinea de la mostenire (prima data baza pt ca e mostenire virtuala)
 
-PremiumUser::PremiumUser() {
+PremiumUser::PremiumUser()
+{
 
     this->ChartSpot = 0;
 
 }
 
 PremiumUser::PremiumUser(string Email, string Parola, string DisplayName, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume,
-    int NumarUrmariri, int MinuteAscultate, int Varsta, int ChartSpot):
+                         int NumarUrmariri, int MinuteAscultate, int Varsta, int ChartSpot):
     Utilizator(Email, Parola, DisplayName),
     Artist(Email, Parola, DisplayName, NumarUrmaritori, AscultatoriLunari, NumarAlbume, ListaAlbume),
-    Ascultator(Email, Parola, DisplayName, NumarUrmariri, MinuteAscultate, Varsta){
+    Ascultator(Email, Parola, DisplayName, NumarUrmariri, MinuteAscultate, Varsta)
+{
 
     this->ChartSpot = ChartSpot;
 
 }
 
-PremiumUser::PremiumUser(const PremiumUser& auxiliar): Utilizator(auxiliar), Artist(auxiliar), Ascultator(auxiliar) {
+PremiumUser::PremiumUser(const PremiumUser& auxiliar): Utilizator(auxiliar), Artist(auxiliar), Ascultator(auxiliar)
+{
 
     this->ChartSpot = auxiliar.ChartSpot;
 
 }
 
-PremiumUser& PremiumUser::operator= (const PremiumUser& auxiliar) {
+PremiumUser& PremiumUser::operator= (const PremiumUser& auxiliar)
+{
 
     if (this != &auxiliar)
     {
@@ -1037,7 +1176,8 @@ PremiumUser& PremiumUser::operator= (const PremiumUser& auxiliar) {
 
 }
 
-void PremiumUser::afisare(ostream& out) const {
+void PremiumUser::afisare(ostream& out) const
+{
 
     Artist::afisare(out);
     out << "Numar urmariri: " << this->NumarUrmariri << endl;
@@ -1047,7 +1187,8 @@ void PremiumUser::afisare(ostream& out) const {
 
 }
 
-void PremiumUser::citire(istream& in) {
+void PremiumUser::citire(istream& in)
+{
 
     Artist::citire(in);
     cout << "Introduceti numar urmariri: ";
@@ -1117,7 +1258,8 @@ void PremiumUser::citire(istream& in) {
 
 }
 
-void PremiumUser::afisare(ofstream& out) const {
+void PremiumUser::afisare(ofstream& out) const
+{
 
     out << this->TipCont << endl;
     Utilizator::afisare(out);
@@ -1135,7 +1277,8 @@ void PremiumUser::afisare(ofstream& out) const {
 
 }
 
-void PremiumUser::citire(ifstream& in) {
+void PremiumUser::citire(ifstream& in)
+{
 
     Artist::citire(in);
     in >> this->NumarUrmariri;
@@ -1145,7 +1288,8 @@ void PremiumUser::citire(ifstream& in) {
 
 }
 
-void PremiumUser::addAlbum() {
+void PremiumUser::addAlbum()
+{
 
     Album album;
     cin >> album;
@@ -1154,13 +1298,15 @@ void PremiumUser::addAlbum() {
 
 }
 
-int PremiumUser::pretAbonamentLunar() {
+int PremiumUser::pretAbonamentLunar()
+{
 
     return 40 + 15 * this->NumarAlbume;
 
 }
 
-int PremiumUser::salariuLunar() {
+int PremiumUser::salariuLunar()
+{
 
     return this->AscultatoriLunari / 30;
 
@@ -1170,30 +1316,33 @@ int PremiumUser::salariuLunar() {
 /// --------------------------------
 /// --------------------------------
 
-class ExceptieOptiuneInexistenta: public exception {
+class ExceptieOptiuneInexistenta: public exception
+{
 public:
     virtual const char* what() const throw()
     {
         return "Ati introdus o optiune inexistenta!";
     }
 
-}exceptieOptiune;
+} exceptieOptiune;
 
-class ExeceptieParolaAdmin: public exception {
+class ExeceptieParolaAdmin: public exception
+{
 public:
     virtual const char* what() const throw()
     {
         return "Parola gresita. Aplicatia se va inchide.";
     }
-}exceptiParolaaaaa;
+} exceptiParolaaaaa;
 
-class ExceptieNuAlbume: public exception {
+class ExceptieNuAlbume: public exception
+{
 public:
     virtual const char* what() const throw()
     {
         return "Pentru a sterge un album trebuie sa aveti cel putin un album!";
     }
-}exceptieAlbumInexistent;
+} exceptieAlbumInexistent;
 
 bool checkNrInList(char nr, string v)
 {
@@ -1217,7 +1366,8 @@ bool checkNrInInterval(char nr, int lowerBound, int upperBound)
 /// --------------------------------
 /// --------------------------------
 
-class Aplicatie {
+class Aplicatie
+{
 private:
 
     static Aplicatie* ob;
@@ -1284,7 +1434,8 @@ public:
         cout << "Bine ati venit! ";
 
         int k1 = 1;
-        while (k1) {
+        while (k1)
+        {
 
             cout << "Alegeti o actiune." << endl;
             cout << "1. Login" << endl;
@@ -1450,7 +1601,7 @@ public:
                             {
                                 cout << "Loc clasament: " << this->getChartSpotUser(indexUser) << endl << endl;
                             }
-                            else if (currentAccType == 2 && comanda2 == "5" || currentAccType == 3 && comanda2 == "7")
+                            else if ((currentAccType == 2 && comanda2 == "5") || (currentAccType == 3 && comanda2 == "7"))
                             {
                                 system("CLS");
                                 try
@@ -1486,7 +1637,8 @@ public:
                                     cout << e.what() << endl << endl;
                                 }
                             }
-                            else if (currentAccType == 1 && comanda2 == "5" || currentAccType == 3 && comanda2 == "8")
+                            else if ((currentAccType == 1 && comanda2 == "5") || (currentAccType == 3 && comanda2 == "8"))
+
                             {
                                 system("CLS");
                                 try
@@ -1664,13 +1816,16 @@ void Aplicatie::addUser()
     cout << "3. Utilizator Premium" << endl;
     int k;
     cin >> k;
-    if (k == 1) {
+    if (k == 1)
+    {
         this->UserList.push_back(new Ascultator());
     }
-    else if (k == 2) {
+    else if (k == 2)
+    {
         this->UserList.push_back(new Artist());
     }
-    else if (k == 3) {
+    else if (k == 3)
+    {
         this->UserList.push_back(new PremiumUser());
     }
     system("CLS");
@@ -1678,7 +1833,8 @@ void Aplicatie::addUser()
 
 }
 
-void Aplicatie::printUserList() {
+void Aplicatie::printUserList()
+{
 
     for (size_t i = 0; i < UserList.size(); i++)
     {
@@ -1688,7 +1844,8 @@ void Aplicatie::printUserList() {
 
 }
 
-void Aplicatie::deleteUser() {
+void Aplicatie::deleteUser()
+{
 
     cout << "Alegeti userul care sa fie sters" << endl;
     for (int i = 0; i < this->getNumarUseri(); i++)
@@ -1708,7 +1865,8 @@ void Aplicatie::deleteUser() {
 
 }
 
-void Aplicatie::readData() {
+void Aplicatie::readData()
+{
 
     ifstream fin;
     fin.open("dateUtilizatori.txt");
@@ -1718,13 +1876,16 @@ void Aplicatie::readData() {
     {
         int accType;
         fin >> accType;
-        if (accType == 1) {
+        if (accType == 1)
+        {
             this->UserList.push_back(new Ascultator());
         }
-        else if (accType == 2) {
+        else if (accType == 2)
+        {
             this->UserList.push_back(new Artist());
         }
-        else if (accType == 3) {
+        else if (accType == 3)
+        {
             this->UserList.push_back(new PremiumUser());
         }
         fin >> *(this->UserList.back());
@@ -1734,7 +1895,8 @@ void Aplicatie::readData() {
 
 }
 
-void Aplicatie::writeData() {
+void Aplicatie::writeData()
+{
 
     ofstream fout;
     fout.open("dateUtilizatori.txt");
@@ -1755,27 +1917,58 @@ void Aplicatie::deleteLastUser()
     this->UserList.erase(this->UserList.begin() + index);
 }
 
-int Aplicatie::getNumarUseri() const {return this->UserList.size();}
+int Aplicatie::getNumarUseri() const
+{
+    return this->UserList.size();
+}
 
-string Aplicatie::getNumeUser(int i) const {return this->UserList[i]->getDisplayName();}
+string Aplicatie::getNumeUser(int i) const
+{
+    return this->UserList[i]->getDisplayName();
+}
 
-string Aplicatie::getParolaUser(int i) const {return this->UserList[i]->getParola();}
+string Aplicatie::getParolaUser(int i) const
+{
+    return this->UserList[i]->getParola();
+}
 
-string Aplicatie::getEmailUser(int i) const {return this->UserList[i]->getEmail();}
+string Aplicatie::getEmailUser(int i) const
+{
+    return this->UserList[i]->getEmail();
+}
 
-int Aplicatie::getTipContUser(int i) const {return this->UserList[i]->getTipCont();}
+int Aplicatie::getTipContUser(int i) const
+{
+    return this->UserList[i]->getTipCont();
+}
 
-void Aplicatie::setNumeUser(int i, string Nume) {this->UserList[i]->setDisplayName(Nume);}
+void Aplicatie::setNumeUser(int i, string Nume)
+{
+    this->UserList[i]->setDisplayName(Nume);
+}
 
-void Aplicatie::setEmailUser(int i, string Email) {this->UserList[i]->setEmail(Email);}
+void Aplicatie::setEmailUser(int i, string Email)
+{
+    this->UserList[i]->setEmail(Email);
+}
 
-void Aplicatie::setParolaUser(int i, string Parola) {this->UserList[i]->setParola(Parola);}
+void Aplicatie::setParolaUser(int i, string Parola)
+{
+    this->UserList[i]->setParola(Parola);
+}
 
-int Aplicatie::getMinuteAscultateUser(int i) const {return this->UserList[i]->getMinuteAscultate();}
+int Aplicatie::getMinuteAscultateUser(int i) const
+{
+    return this->UserList[i]->getMinuteAscultate();
+}
 
-void Aplicatie::addAlbumUser(int i) {this->UserList[i]->addAlbum();}
+void Aplicatie::addAlbumUser(int i)
+{
+    this->UserList[i]->addAlbum();
+}
 
-string Aplicatie::getNumeAlbum(int indexUser, int indexAlbum) const {
+string Aplicatie::getNumeAlbum(int indexUser, int indexAlbum) const
+{
 
     /// aici this->UserList[indexUser] e un utilizator* si trebuie sa ii facem cast la artist* ca sa putem folosi get album
 
@@ -1789,7 +1982,8 @@ string Aplicatie::getNumeAlbum(int indexUser, int indexAlbum) const {
 
 }
 
-int Aplicatie::getNumarAlbumeUser(int i){
+int Aplicatie::getNumarAlbumeUser(int i)
+{
 
     Artist* artistptr;
     artistptr = dynamic_cast<Artist*> (this->UserList[i]);
@@ -1798,7 +1992,10 @@ int Aplicatie::getNumarAlbumeUser(int i){
 
 }
 
-int Aplicatie::getChartSpotUser(int i) const {return this->UserList[i]->getChartSpot();}
+int Aplicatie::getChartSpotUser(int i) const
+{
+    return this->UserList[i]->getChartSpot();
+}
 
 void Aplicatie::deleteAlbumUser(int indexUser, int indexAlbum)
 {
@@ -1883,11 +2080,6 @@ void Aplicatie::ascultaMelodie(int indexUser)
     }
     */
 }
-
-/// --------------------------------
-/// --------------------------------
-/// --------------------------------
-
 
 int main()
 {

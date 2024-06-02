@@ -648,7 +648,7 @@ public:
 
     int pretAbonamentLunar() override;
     int salariuLunar() override;
-    int getMinuteAscultate() const override 
+    int getMinuteAscultate() const override
     {
         return -1;
     }
@@ -896,7 +896,7 @@ protected:
 public:
 
     Ascultator();
-    Ascultator(string Email, string Parola, string DisplayName, int NumarUrmariri, int MinuteAscultate, int Varsta);
+    Ascultator(string Email, string Parola, string DisplayName, int TipCont, int NumarUrmariri, int MinuteAscultate, int Varsta);
     Ascultator(const Ascultator& listener);
 
     Ascultator& operator= (const Ascultator& listener);
@@ -947,10 +947,10 @@ Ascultator::Ascultator(): Utilizator()
 
 }
 
-Ascultator::Ascultator(string Email, string Parola, string DisplayName, int NumarUrmariri, int MinuteAscultate, int Varsta):
+Ascultator::Ascultator(string Email, string Parola, string DisplayName, int TipCont, int NumarUrmariri, int MinuteAscultate, int Varsta):
     Utilizator(Email, Parola, DisplayName)
 {
-
+    this->TipCont = 1;
     this->NumarUrmariri = NumarUrmariri;
     this->MinuteAscultate = MinuteAscultate;
     this->Varsta = Varsta;
@@ -1094,7 +1094,7 @@ private:
 public:
 
     PremiumUser();
-    PremiumUser(string Email, string Parola, string DisplayName, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume, int NumarUrmariri, int MinuteAscultate, int Varsta, int ChartSpot);
+    PremiumUser(string Email, string Parola, string DisplayName, int TipCont, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume, int NumarUrmariri, int MinuteAscultate, int Varsta, int ChartSpot);
     PremiumUser(const PremiumUser& auxiliar);
     PremiumUser& operator= (const PremiumUser& auxiliar);
 
@@ -1133,12 +1133,13 @@ PremiumUser::PremiumUser()
 
 }
 
-PremiumUser::PremiumUser(string Email, string Parola, string DisplayName, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume,
+PremiumUser::PremiumUser(string Email, string Parola, string DisplayName, int TipCont, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, vector <Album> ListaAlbume,
                          int NumarUrmariri, int MinuteAscultate, int Varsta, int ChartSpot):
     Utilizator(Email, Parola, DisplayName),
     Artist(Email, Parola, DisplayName, TipCont, NumarUrmaritori, AscultatoriLunari, NumarAlbume, ListaAlbume),
-    Ascultator(Email, Parola, DisplayName, NumarUrmariri, MinuteAscultate, Varsta)
+    Ascultator(Email, Parola, DisplayName, TipCont, NumarUrmariri, MinuteAscultate, Varsta)
 {
+    this->TipCont = 3;
     this->ChartSpot = ChartSpot;
 }
 

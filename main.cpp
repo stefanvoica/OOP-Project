@@ -13,7 +13,7 @@ public:
 
     virtual void afisare(ostream& out) const = 0;
     virtual void citire(istream& in) = 0;
-
+    virtual ~IOInterface() {}  // Add virtual destructor
     virtual void afisare(ofstream& out) const = 0;
     virtual void citire(ifstream& in) = 0;
 
@@ -244,6 +244,7 @@ public:
 
     bool operator< (const Melodie&) const;
 
+    virtual ~Melodie(){};
 };
 
 Melodie::Melodie()
@@ -443,7 +444,7 @@ public:
     }
 
    // void addMelodie();
-
+   virtual ~Album() {}
 };
 
 Album::Album()
@@ -687,15 +688,12 @@ Artist::Artist()
     this->NumarAlbume = 0;
 }
 
-Artist::Artist(const string& Email, const string& Parola, const string& DisplayName, int TipCont, int NumarUrmaritori, int AscultatoriLunari, int NumarAlbume, const vector <Album>& ListaAlbume):
-        Utilizator(Email, Parola, DisplayName, TipCont)
-{
-    this->TipCont = 2;
-    this->NumarUrmaritori = NumarUrmaritori;
-    this->AscultatoriLunari = AscultatoriLunari;
-    this->NumarAlbume = NumarAlbume;
-    this->ListaAlbume = ListaAlbume;
-}
+Artist::Artist(const string& email, const string& parola, const string& displayName, int tipCont,
+               int numarUrmaritori, int ascultatoriLunari, int numarAlbume, const vector<Album>& listaAlbume)
+        : Utilizator(email, parola, displayName, tipCont),
+          NumarUrmaritori(numarUrmaritori), AscultatoriLunari(ascultatoriLunari),
+          NumarAlbume(numarAlbume), ListaAlbume(listaAlbume) {}
+
 
 Artist::Artist(const Artist& artist) : Utilizator(artist), NumarUrmaritori(artist.NumarUrmaritori), AscultatoriLunari(artist.AscultatoriLunari), NumarAlbume(artist.NumarAlbume), ListaAlbume(artist.ListaAlbume) {
 }
